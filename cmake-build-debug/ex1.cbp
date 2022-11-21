@@ -83,13 +83,7 @@
 		<Unit filename="C:/Users/annag/CLionProjects/ex1/AvlTree.h">
 			<Option target="ex1"/>
 		</Unit>
-		<Unit filename="C:/Users/annag/CLionProjects/ex1/cmake-build-debug/WorldCup.h">
-			<Option target="ex1"/>
-		</Unit>
 		<Unit filename="C:/Users/annag/CLionProjects/ex1/main.cpp">
-			<Option target="ex1"/>
-		</Unit>
-		<Unit filename="C:/Users/annag/CLionProjects/ex1/unused.h">
 			<Option target="ex1"/>
 		</Unit>
 		<Unit filename="C:/Users/annag/CLionProjects/ex1/CMakeLists.txt">

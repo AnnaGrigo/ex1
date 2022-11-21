@@ -60,8 +60,9 @@ public:
     AvlNode<Key, Value>* Rotate(AvlNode<Key, Value> *node);
     returnMessage Insert(Key key, Value value);
     returnMessage InsertNode(AvlNode<Key, Value> *root, AvlNode<Key, Value> *parent, AvlNode<Key, Value> *toInsert);
+    AvlNode<Key, Value>* deleteNode(AvlNode<Key, Value>* node,AvlNode<Key, Value>* nodeParent, Key id);
     returnMessage Delete(Key key);
-    AvlNode<Key, Value> *Find(Key key) const;
+        AvlNode<Key, Value> *Find(Key key) const;
     void Merge(AvlTree<Key, Value> &second_tree);
 
 
@@ -231,6 +232,7 @@ returnMessage AvlTree<Key, Value>::Insert(Key key, Value value) {
     }
 }
 
+//need to check if height updates correctly , might be a problem(extra rotation seen)
 template<class Key, class Value>
 returnMessage
 AvlTree<Key, Value>::InsertNode(AvlNode<Key, Value> *rootNode, AvlNode<Key, Value> *newParent, AvlNode<Key, Value> *toInsert) {
@@ -258,7 +260,7 @@ AvlTree<Key, Value>::InsertNode(AvlNode<Key, Value> *rootNode, AvlNode<Key, Valu
     if(newParent){
         if(newParent->right_son)
             rHeight = newParent->right_son->height;
-        if(rootNode->left_son)
+        if(newParent->left_son)
             lHeight = newParent->left_son->height;
         newParent->height = (1 + std::max(rHeight, lHeight));
         this->Rotate(newParent);
@@ -267,16 +269,113 @@ AvlTree<Key, Value>::InsertNode(AvlNode<Key, Value> *rootNode, AvlNode<Key, Valu
 }
 
 template<class Key, class Value>
+AvlNode<Key, Value>* findMinNode (AvlNode<Key,Value>* root) {
+    AvlNode<Key, Value> *node = root;
+    while (node->left_son != nullptr)
+    {
+        node = node->left_son;
+    }
+    return node;
+}
+
+template<class Key, class Value>
+AvlNode<Key, Value>* findMaxNode (AvlNode<Key,Value>* root) {
+    AvlNode<Key, Value> *node = root;
+    while (node->right_son != nullptr)
+    {
+        node = node->right_son;
+    }
+    return node;
+}
+
+template<class Key, class Value>
 returnMessage AvlTree<Key, Value>::Delete(Key key) {
-    AvlNode<Key,Value>* toDelete = Find(key);
-    if(!toDelete){
+    AvlNode<Key,Value>* deleted = deleteNode(root, nullptr, key);
+    if(deleted == nullptr){
         return returnMessage::FAILURE;
     }
-    AvlNode<Key,Value>* nodeParent = toDelete->parent;
-
-
     return returnMessage::SUCCESS;
 }
+
+template<class Key, class Value>
+AvlNode<Key, Value>* AvlTree<Key, Value>::deleteNode(AvlNode<Key, Value>* node ,AvlNode<Key, Value>* nodeParent, Key id){
+    if(!node){
+        return nullptr;
+    }
+    if (node->key > id){
+        deleteNode(node->left_son, node,id);
+    }
+    else if (node->key < id){
+        deleteNode(node->right_son, node, id);
+    }
+    if(node->key == id){
+        if(node->left_son){
+            AvlNode<Key,Value>* maxLeftNode = findMaxNode(node->left_son);
+            AvlNode<Key,Value>* maxLeftNodeParent = maxLeftNode->parent;
+            if(maxLeftNode != node->left_son){
+                maxLeftNode->left_son = node->left_son;
+                node->left_son->parent = maxLeftNode;
+                if (maxLeftNode->left_son){
+                    maxLeftNodeParent->parent->right_son = maxLeftNode->left_son;
+                    maxLeftNode->left_son->parent = maxLeftNodeParent;
+                } else maxLeftNodeParent->right_son = nullptr;
+            }
+            if(node->right_son){
+                maxLeftNode->right_son = node->right_son;
+                node->right_son->parent = maxLeftNode;
+            }
+            maxLeftNode->parent = nodeParent;
+            if(nodeParent){
+                if (nodeParent->right_son == node){
+                    nodeParent->right_son = maxLeftNode;
+                }
+                else
+                    nodeParent->left_son = maxLeftNode;
+            }
+            maxLeftNode->parent = nodeParent;
+            if(node == root){
+                root = maxLeftNode;
+            }
+            delete node;
+            --size;
+        }
+        else if(node->right_son){
+            node->right_son->parent = nodeParent;
+            if(nodeParent){
+                if(nodeParent->left_son == node){
+                    nodeParent->left_son = node->right_son;
+                } else nodeParent->right_son = node->right_son;
+            }
+            if(node == root){
+                root = node->right_son;
+            }
+            delete node;
+            --size;
+        }
+        else{
+            if(nodeParent){
+                if(nodeParent->left_son == node){
+                    nodeParent->left_son = nullptr;
+                } else nodeParent->right_son = nullptr;
+            }
+            root = nullptr;
+            delete node;
+            --size;
+        }
+    }
+    int rHeight = 0, lHeight = 0;
+    if(nodeParent){
+        if(nodeParent->right_son)
+            rHeight = nodeParent->right_son->height;
+        if(nodeParent->left_son)
+            lHeight = nodeParent->left_son->height;
+        nodeParent->height = (1 + std::max(rHeight, lHeight));
+        this->Rotate(nodeParent);
+    }
+    return nodeParent;
+}
+
+
 
 template<class Key, class Value>
 AvlNode<Key, Value> *AvlTree<Key, Value>::Find(Key key) const {
