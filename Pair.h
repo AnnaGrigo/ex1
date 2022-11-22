@@ -5,10 +5,10 @@
 template <class Key, class Value>
 class Pair
 {
+public:
     Key key;
     Value value;
 
-public:
     Pair() = default;
     Pair(Key new_key,Value new_value)
             : key(new_key)
@@ -18,7 +18,7 @@ public:
     Pair(const Pair<Key, Value> &other)
     {
         this->key = other.key;
-        this->data = other.data;
+        this->value = other.value;
     }
 
 

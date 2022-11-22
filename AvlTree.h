@@ -61,7 +61,7 @@ public:
     returnMessage Delete(Key key);
         AvlNode<Key, Value> *Find(Key key) const;
     void Merge(AvlTree<Key, Value> &second_tree);
-    void InOrder(Pair<Key, Value> arr[]);
+    void InOrder(AvlNode<Key, Value>* root,Pair<Key, Value> arr[]);
     void ArrayToAvlTree(Pair<Key, Value> *arr, int arr_len);
     AvlNode<Key, Value> *ArrayToAvlTreeFunc(Pair<Key, Value> arr[], int begin, int end);
 
@@ -409,11 +409,11 @@ void AvlTree<Key, Value>::Merge(AvlTree<Key, Value> &second_tree) {
     Pair<Key, Value> *mergedArray = MergeTwoSortedArrays(array1, array2, first_tree_size, second_tree_size);
     if ((this->root))
     {
-        this->root = DeleteTree(this->root);
+    //    DeleteTree(this->root);
     }
     this->ArrayToAvlTree(mergedArray, first_tree_size + second_tree_size);
     this->size = first_tree_size + second_tree_size;
-    delete second_tree;
+    //DeleteTree(second_tree.root);
     delete[] array1;
     delete[] array2;
     delete[] mergedArray;
@@ -463,7 +463,7 @@ void AvlTree<Key, Value>::ArrayToAvlTree(Pair<Key, Value> *arr, int arr_len)
     AvlNode<Key, Value> *tree_root = ArrayToAvlTreeFunc(arr, 0, arr_len - 1);
     ArrayToAvlTreeParentFunc(tree_root);
     this->root = tree_root;
-    this->SetSize(arr_len);
+    this->size = arr_len;
 }
 
 // A utility function for ArrayToAvlTree
@@ -500,10 +500,10 @@ void ArrayToAvlTreeParentFunc(AvlNode<Key, Value> *root)
 
 // A utility function that recieves an AVL tree and an empty array and sorts inorder trans into the array
 template <class Key, class Value>
-void AvlTree<Key, Value>::InOrder(Pair<Key, Value> arr[])
+void AvlTree<Key, Value>::InOrder(AvlNode<Key, Value> *tree_root, Pair<Key, Value> arr[])
 {
     int i = 0;
-    InOrderFunc(this->root, arr, i);
+    InOrderFunc(tree_root, arr, i);
 }
 
 // A utility function for InOrder
@@ -515,10 +515,10 @@ void InOrderFunc(AvlNode<Key, Value> *root, Pair<Key, Value> arr[], int &index)
         return;
     }
     InOrderFunc(root->left_son, arr, index);
-    arr[index].SetKey(root->key);
-    arr[index].SetData(root->value);
+    arr[index].key = root->key;
+    arr[index].value = root->value;
     index++;
-    InOrderFunc(root->GetRight(), arr, index);
+    InOrderFunc(root->right_son, arr, index);
 }
 
 
