@@ -60,7 +60,7 @@ public:
     AvlNode<Key, Value>* Rotate(AvlNode<Key, Value> *node);
     returnMessage Insert(Key key, Value value);
     returnMessage InsertNode(AvlNode<Key, Value> *root, AvlNode<Key, Value> *parent, AvlNode<Key, Value> *toInsert);
-    AvlNode<Key, Value>* deleteNode(AvlNode<Key, Value>* node,AvlNode<Key, Value>* nodeParent, Key id);
+    returnMessage deleteNode(AvlNode<Key, Value>* node,AvlNode<Key, Value>* nodeParent, Key id);
     returnMessage Delete(Key key);
         AvlNode<Key, Value> *Find(Key key) const;
     void Merge(AvlTree<Key, Value> &second_tree);
@@ -102,7 +102,12 @@ void updateHeight(AvlNode<Key, Value> *node){
     if (node->left_son != nullptr) {
             Lheight = node->left_son->height;
     }
-    node->height = 1 + (std::max(Rheight,Lheight));
+    if(!node->left_son && !node->right_son)
+    {
+        node->height = 0;
+    } else{
+        node->height = 1 + (std::max(Rheight,Lheight));
+    }
 }
 
 
@@ -298,9 +303,9 @@ returnMessage AvlTree<Key, Value>::Delete(Key key) {
 }
 
 template<class Key, class Value>
-AvlNode<Key, Value>* AvlTree<Key, Value>::deleteNode(AvlNode<Key, Value>* node ,AvlNode<Key, Value>* nodeParent, Key id){
+returnMessage AvlTree<Key, Value>::deleteNode(AvlNode<Key, Value>* node ,AvlNode<Key, Value>* nodeParent, Key id){
     if(!node){
-        return nullptr;
+        return returnMessage::FAILURE;
     }
     if (node->key > id){
         deleteNode(node->left_son, node,id);
@@ -313,12 +318,13 @@ AvlNode<Key, Value>* AvlTree<Key, Value>::deleteNode(AvlNode<Key, Value>* node ,
             AvlNode<Key,Value>* maxLeftNode = findMaxNode(node->left_son);
             AvlNode<Key,Value>* maxLeftNodeParent = maxLeftNode->parent;
             if(maxLeftNode != node->left_son){
-                maxLeftNode->left_son = node->left_son;
-                node->left_son->parent = maxLeftNode;
                 if (maxLeftNode->left_son){
                     maxLeftNodeParent->parent->right_son = maxLeftNode->left_son;
                     maxLeftNode->left_son->parent = maxLeftNodeParent;
-                } else maxLeftNodeParent->right_son = nullptr;
+                }
+                else maxLeftNodeParent->right_son = nullptr;
+                maxLeftNode->left_son = node->left_son;
+                node->left_son->parent = maxLeftNode;
             }
             if(node->right_son){
                 maxLeftNode->right_son = node->right_son;
@@ -372,7 +378,7 @@ AvlNode<Key, Value>* AvlTree<Key, Value>::deleteNode(AvlNode<Key, Value>* node ,
         nodeParent->height = (1 + std::max(rHeight, lHeight));
         this->Rotate(nodeParent);
     }
-    return nodeParent;
+    return returnMessage::SUCCESS;
 }
 
 
