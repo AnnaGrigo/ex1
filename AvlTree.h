@@ -3,6 +3,7 @@
 #define RATUV1_AVLTREE_H
 
 #include <iostream>
+#include "Pair.h"
 
 enum class returnMessage{
     ALLOCATION_ERROR, INVALID_INPUT, FAILURE, SUCCESS
@@ -16,7 +17,7 @@ public:
     AvlNode* right_son;
     AvlNode* left_son;
     AvlNode* parent;
-    int height;
+    int height{};
 
     AvlNode(Key key, Value value)
             : key(key),
@@ -36,8 +37,6 @@ public:
     }
 
     ~AvlNode() = default;
-    
-
 };
 
 
@@ -62,6 +61,9 @@ public:
     returnMessage Delete(Key key);
         AvlNode<Key, Value> *Find(Key key) const;
     void Merge(AvlTree<Key, Value> &second_tree);
+    void InOrder(Pair<Key, Value> arr[]);
+    void ArrayToAvlTree(Pair<Key, Value> *arr, int arr_len);
+    AvlNode<Key, Value> *ArrayToAvlTreeFunc(Pair<Key, Value> arr[], int begin, int end);
 
 
 };
@@ -115,16 +117,14 @@ int AvlTree<Key, Value>::BF(AvlNode<Key, Value> *node) const {
     if (node == nullptr) {
         return 0;
     }
-    int Rheight = 0;
-    int Lheight = 0;
+    int Rheight = -1;
+    int Lheight = -1;
     if (node->right_son != nullptr) {
         Rheight = node->right_son->height;
-    } else
-        Rheight = -1;
+    }
     if (node->left_son != nullptr) {
         Lheight = node->left_son->height;
-    } else
-        Lheight = -1;
+    }
     return Lheight - Rheight;
 }
 
@@ -391,6 +391,134 @@ AvlNode<Key, Value> *findNode(AvlNode<Key, Value> * rootNode,int key){
     else if(rootNode->key < key){
         findNode(rootNode->right_son,key);
     }
+}
+
+
+template<class Key, class Value>
+void AvlTree<Key, Value>::Merge(AvlTree<Key, Value> &second_tree) {
+    if (!(this->root) && !(second_tree.root))
+    {
+        return;
+    }
+    int first_tree_size = this->size;
+    int second_tree_size = second_tree.size;
+    auto *array1 = new Pair<Key, Value>[first_tree_size];
+    InOrder(this->root, array1);
+    auto *array2 = new Pair<Key, Value>[second_tree_size];
+    InOrder(second_tree.root, array2);
+    Pair<Key, Value> *mergedArray = MergeTwoSortedArrays(array1, array2, first_tree_size, second_tree_size);
+    if ((this->root))
+    {
+        this->root = DeleteTree(this->root);
+    }
+    this->ArrayToAvlTree(mergedArray, first_tree_size + second_tree_size);
+    this->size = first_tree_size + second_tree_size;
+    delete second_tree;
+    delete[] array1;
+    delete[] array2;
+    delete[] mergedArray;
+}
+
+// A utility function that merges 2 sorted arrays into 1 sorted array
+template <class Key, class Value>
+Pair<Key, Value> *MergeTwoSortedArrays(Pair<Key, Value> arr1[], Pair<Key, Value> arr2[], int arr1_len, int arr2_len)
+{
+    auto *mergedArr = new Pair<Key, Value>[arr1_len + arr2_len];
+    int arr1_index = 0, arr2_index = 0, new_arr_index = 0;
+
+    while (arr1_index < arr1_len && arr2_index < arr2_len)
+    {
+        if (arr1[arr1_index] < arr2[arr2_index])
+        {
+            mergedArr[new_arr_index] = arr1[arr1_index];
+            arr1_index++;
+        }
+        else
+        {
+            mergedArr[new_arr_index] = arr2[arr2_index];
+            arr2_index++;
+        }
+        new_arr_index++;
+    }
+    while (arr1_index < arr1_len)
+    {
+        mergedArr[new_arr_index] = arr1[arr1_index];
+        arr1_index++;
+        new_arr_index++;
+    }
+    while (arr2_index < arr2_len)
+    {
+        mergedArr[new_arr_index] = arr2[arr2_index];
+        arr2_index++;
+        new_arr_index++;
+    }
+    return mergedArr;
+}
+
+
+// A utility function to make a sorted array into an AVL tree
+template <class Key, class Value>
+void AvlTree<Key, Value>::ArrayToAvlTree(Pair<Key, Value> *arr, int arr_len)
+{
+    AvlNode<Key, Value> *tree_root = ArrayToAvlTreeFunc(arr, 0, arr_len - 1);
+    ArrayToAvlTreeParentFunc(tree_root);
+    this->root = tree_root;
+    this->SetSize(arr_len);
+}
+
+// A utility function for ArrayToAvlTree
+template <class Key, class Value>
+AvlNode<Key, Value> *AvlTree<Key, Value>::ArrayToAvlTreeFunc(Pair<Key, Value> arr[], int begin, int end)
+{
+    if (begin > end)
+    {
+        return NULL;
+    }
+    int mid = (begin + end) / 2;
+    auto *new_node = new AvlNode<Key, Value>(arr[mid].key, arr[mid].value);
+    new_node->left_son = ArrayToAvlTreeFunc(arr, begin, mid - 1);
+    new_node->right_son = ArrayToAvlTreeFunc(arr, mid + 1, end);
+    updateHeight(new_node);
+    return new_node;
+}
+
+// A utility function for ArrayToAvlTree
+template <class Key, class Value>
+void ArrayToAvlTreeParentFunc(AvlNode<Key, Value> *root)
+{
+    if (root->left_son)
+    {
+        root->left_son->parent = root;
+        ArrayToAvlTreeParentFunc(root->left_son);
+    }
+    if (root->right_son)
+    {
+        root->right_son->parent = root;
+        ArrayToAvlTreeParentFunc(root->right_son);
+    }
+}
+
+// A utility function that recieves an AVL tree and an empty array and sorts inorder trans into the array
+template <class Key, class Value>
+void AvlTree<Key, Value>::InOrder(Pair<Key, Value> arr[])
+{
+    int i = 0;
+    InOrderFunc(this->root, arr, i);
+}
+
+// A utility function for InOrder
+template <class Key, class Value>
+void InOrderFunc(AvlNode<Key, Value> *root, Pair<Key, Value> arr[], int &index)
+{
+    if (!root)
+    {
+        return;
+    }
+    InOrderFunc(root->left_son, arr, index);
+    arr[index].SetKey(root->key);
+    arr[index].SetData(root->value);
+    index++;
+    InOrderFunc(root->GetRight(), arr, index);
 }
 
 
