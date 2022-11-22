@@ -41,8 +41,6 @@ public:
 };
 
 
-
-
 template<class Key, class Value>
 class AvlTree {
 public:
@@ -214,7 +212,7 @@ AvlNode<Key, Value>* AvlTree<Key, Value>::Rotate(AvlNode<Key, Value> *node) {
         }
     }
     else if (bf <= -2) {
-        if (BF(node->right_son) >= 0) {
+        if (BF(node->right_son) > 0) {
            return RL(node);
         } else {
            return RR(node);
@@ -235,7 +233,6 @@ returnMessage AvlTree<Key, Value>::Insert(Key key, Value value) {
     }
 }
 
-//need to check if height updates correctly , might be a problem(extra rotation seen)
 template<class Key, class Value>
 returnMessage
 AvlTree<Key, Value>::InsertNode(AvlNode<Key, Value> *rootNode, AvlNode<Key, Value> *newParent, AvlNode<Key, Value> *toInsert) {
@@ -358,11 +355,10 @@ returnMessage AvlTree<Key, Value>::deleteNode(AvlNode<Key, Value>* node ,AvlNode
                     nodeParent->left_son = nullptr;
                 } else nodeParent->right_son = nullptr;
             }
-            root = nullptr;
+            else(root = nullptr);
             delete node;
             --size;
         }
-        //fuck
     }
     int rHeight = 0, lHeight = 0;
     if(nodeParent){
