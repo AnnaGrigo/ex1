@@ -206,10 +206,7 @@ AvlNode<Key, Value>* AvlTree<Key, Value>::LR(AvlNode<Key, Value> *node) {
 template<class Key, class Value>
 AvlNode<Key, Value>* AvlTree<Key, Value>::Rotate(AvlNode<Key, Value> *node) {
     int bf = BF(node);
-    if(bf > -2 && bf < 2){
-        return node;
-    }
-    else if (bf >= 2) {
+    if (bf >= 2) {
         if (BF(node->left_son) >= 0) {
            return LL(node);
         } else {
@@ -223,6 +220,7 @@ AvlNode<Key, Value>* AvlTree<Key, Value>::Rotate(AvlNode<Key, Value> *node) {
            return RR(node);
         }
     }
+    else return node;
 }
 
 template<class Key, class Value>
@@ -295,11 +293,7 @@ AvlNode<Key, Value>* findMaxNode (AvlNode<Key,Value>* root) {
 
 template<class Key, class Value>
 returnMessage AvlTree<Key, Value>::Delete(Key key) {
-    AvlNode<Key,Value>* deleted = deleteNode(root, nullptr, key);
-    if(deleted == nullptr){
-        return returnMessage::FAILURE;
-    }
-    return returnMessage::SUCCESS;
+    return deleteNode(root, nullptr, key);
 }
 
 template<class Key, class Value>
@@ -368,6 +362,7 @@ returnMessage AvlTree<Key, Value>::deleteNode(AvlNode<Key, Value>* node ,AvlNode
             delete node;
             --size;
         }
+        //fuck
     }
     int rHeight = 0, lHeight = 0;
     if(nodeParent){

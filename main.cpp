@@ -14,7 +14,11 @@ int main() {
     avl.Insert(7,7);
     avl.Insert(5,5);
     avl.Insert(4,4);
-    avl.Delete(6);
+    avl.Insert(2,2);
+    avl.Insert(10,10);
+    avl.Insert(8,8);
+    avl.Delete(5);
+    avl.Insert(5,5);
 
 
 
