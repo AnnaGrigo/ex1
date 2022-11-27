@@ -128,29 +128,29 @@ ex1/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/build
 .PHONY : ex1/fast
 
-main.obj: main.cpp.obj
-.PHONY : main.obj
+test-avl.obj: test-avl.cpp.obj
+.PHONY : test-avl.obj
 
 # target to build an object file
-main.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/main.cpp.obj
-.PHONY : main.cpp.obj
+test-avl.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/test-avl.cpp.obj
+.PHONY : test-avl.cpp.obj
 
-main.i: main.cpp.i
-.PHONY : main.i
+test-avl.i: test-avl.cpp.i
+.PHONY : test-avl.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/main.cpp.i
-.PHONY : main.cpp.i
+test-avl.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/test-avl.cpp.i
+.PHONY : test-avl.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+test-avl.s: test-avl.cpp.s
+.PHONY : test-avl.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/main.cpp.s
-.PHONY : main.cpp.s
+test-avl.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/test-avl.cpp.s
+.PHONY : test-avl.cpp.s
 
 # Help Target
 help:
@@ -161,9 +161,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... ex1
-	@echo ... main.obj
-	@echo ... main.i
-	@echo ... main.s
+	@echo ... test-avl.obj
+	@echo ... test-avl.i
+	@echo ... test-avl.s
 .PHONY : help
 
 

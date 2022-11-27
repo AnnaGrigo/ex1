@@ -65,27 +65,27 @@ include CMakeFiles/ex1.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/ex1.dir/flags.make
 
-CMakeFiles/ex1.dir/main.cpp.obj: CMakeFiles/ex1.dir/flags.make
-CMakeFiles/ex1.dir/main.cpp.obj: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\annag\CLionProjects\ex1\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/ex1.dir/main.cpp.obj"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\ex1.dir\main.cpp.obj -c C:\Users\annag\CLionProjects\ex1\main.cpp
+CMakeFiles/ex1.dir/test-avl.cpp.obj: CMakeFiles/ex1.dir/flags.make
+CMakeFiles/ex1.dir/test-avl.cpp.obj: ../test-avl.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\annag\CLionProjects\ex1\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/ex1.dir/test-avl.cpp.obj"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\ex1.dir\test-avl.cpp.obj -c C:\Users\annag\CLionProjects\ex1\test-avl.cpp
 
-CMakeFiles/ex1.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex1.dir/main.cpp.i"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\annag\CLionProjects\ex1\main.cpp > CMakeFiles\ex1.dir\main.cpp.i
+CMakeFiles/ex1.dir/test-avl.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex1.dir/test-avl.cpp.i"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\annag\CLionProjects\ex1\test-avl.cpp > CMakeFiles\ex1.dir\test-avl.cpp.i
 
-CMakeFiles/ex1.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex1.dir/main.cpp.s"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\annag\CLionProjects\ex1\main.cpp -o CMakeFiles\ex1.dir\main.cpp.s
+CMakeFiles/ex1.dir/test-avl.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex1.dir/test-avl.cpp.s"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\annag\CLionProjects\ex1\test-avl.cpp -o CMakeFiles\ex1.dir\test-avl.cpp.s
 
 # Object files for target ex1
 ex1_OBJECTS = \
-"CMakeFiles/ex1.dir/main.cpp.obj"
+"CMakeFiles/ex1.dir/test-avl.cpp.obj"
 
 # External object files for target ex1
 ex1_EXTERNAL_OBJECTS =
 
-ex1.exe: CMakeFiles/ex1.dir/main.cpp.obj
+ex1.exe: CMakeFiles/ex1.dir/test-avl.cpp.obj
 ex1.exe: CMakeFiles/ex1.dir/build.make
 ex1.exe: CMakeFiles/ex1.dir/linklibs.rsp
 ex1.exe: CMakeFiles/ex1.dir/objects1.rsp

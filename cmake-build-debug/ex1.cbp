@@ -86,19 +86,10 @@
 		<Unit filename="C:/Users/annag/CLionProjects/ex1/Pair.h">
 			<Option target="ex1"/>
 		</Unit>
-		<Unit filename="C:/Users/annag/CLionProjects/ex1/Player.h">
+		<Unit filename="C:/Users/annag/CLionProjects/ex1/avltree-test-helper.h">
 			<Option target="ex1"/>
 		</Unit>
-		<Unit filename="C:/Users/annag/CLionProjects/ex1/Score.h">
-			<Option target="ex1"/>
-		</Unit>
-		<Unit filename="C:/Users/annag/CLionProjects/ex1/Team.h">
-			<Option target="ex1"/>
-		</Unit>
-		<Unit filename="C:/Users/annag/CLionProjects/ex1/WorldCup.h">
-			<Option target="ex1"/>
-		</Unit>
-		<Unit filename="C:/Users/annag/CLionProjects/ex1/main.cpp">
+		<Unit filename="C:/Users/annag/CLionProjects/ex1/test-avl.cpp">
 			<Option target="ex1"/>
 		</Unit>
 		<Unit filename="C:/Users/annag/CLionProjects/ex1/CMakeLists.txt">

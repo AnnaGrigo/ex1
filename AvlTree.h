@@ -522,5 +522,52 @@ void InOrderFunc(AvlNode<Key, Value> *root, Pair<Key, Value> arr[], int &index)
     InOrderFunc(root->right_son, arr, index);
 }
 
+template<class Key, class Value>
+int is_tree_valid(AvlNode<Key, Value> *root) {
+    if (!root) {
+        return 1;
+    }
+    if (root->left_son && root->left_son->key >= root->key) {
+        return 0;
+    }
+    if (root->right_son && root->right_son->key <= root->key) {
+        return 0;
+    }
+    if ( std::abs(BalanceFactor(root)) > 1) {
+        return 0;
+    }
+    if(root->parent){
+        if(root->parent->left_son != root && root->parent->right_son != root){
+            return 0;
+        }
+    }
+    if(root->left_son){
+        if(root->left_son->parent != root){
+            return 0;
+        }
+    }
+    if(root->right_son){
+        if(root->right_son->parent != root){
+            return 0;
+        }
+    }
+    return is_tree_valid(root->left_son) && is_tree_valid(root->right_son);
+}
+
+template<class Key, class Value>
+int BalanceFactor(AvlNode<Key, Value> *node) {
+    if (node == nullptr) {
+        return 0;
+    }
+    int Rheight = -1;
+    int Lheight = -1;
+    if (node->right_son != nullptr) {
+        Rheight = node->right_son->height;
+    }
+    if (node->left_son != nullptr) {
+        Lheight = node->left_son->height;
+    }
+    return Lheight-Rheight;
+}
 
 #endif //RATUV1_AVLTREE_H
