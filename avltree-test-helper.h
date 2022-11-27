@@ -12,6 +12,7 @@ Friend of AvlTree class which contains functions only used in testing.
 #include <cmath>
 #include <assert.h>
 #include <memory>
+#include "AvlTree.h"
 
 using std::max;
 using namespace std;

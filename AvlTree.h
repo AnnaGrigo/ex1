@@ -410,7 +410,7 @@ void AvlTree<Key, Value>::Merge(AvlTree<Key, Value> &second_tree) {
     Pair<Key, Value> *mergedArray = MergeTwoSortedArrays(array1, array2, first_tree_size, second_tree_size);
     if ((this->root))
     {
-        //    DeleteTree(this->root);
+        //DeleteTree(this->root);
     }
     this->ArrayToAvlTree(mergedArray, first_tree_size + second_tree_size);
     this->size = first_tree_size + second_tree_size;
@@ -569,5 +569,6 @@ int BalanceFactor(AvlNode<Key, Value> *node) {
     }
     return Lheight-Rheight;
 }
+
 
 #endif //RATUV1_AVLTREE_H

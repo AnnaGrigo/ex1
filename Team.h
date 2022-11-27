@@ -13,11 +13,10 @@ public:
     int points;
     int value;
     int num_of_goalkeepers;
-    int num_of_team_players;
     int top_team_player_score;
     Player* top_team_player;
-    AvlTree<int,Player*> players_by_id;
-    AvlTree<Score ,Player*> players_by_score;
+    AvlTree<int,Player*> team_players_by_id;
+    AvlTree<Score ,Player*> team_players_by_score;
 };
 
 

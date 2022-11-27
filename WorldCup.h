@@ -20,7 +20,6 @@ public:
     AvlTree<Score, Player*> all_players_by_score;
     int top_player_score;
     Player* top_player;
-    int num_of_players;
 
 
     WorldCup();
