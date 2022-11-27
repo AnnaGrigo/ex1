@@ -118,6 +118,30 @@ ex1\fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\ex1.dir\build
 .PHONY : ex1\fast
 
+TreeTester.obj: TreeTester.cpp.obj
+.PHONY : TreeTester.obj
+
+# target to build an object file
+TreeTester.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\ex1.dir\TreeTester.cpp.obj
+.PHONY : TreeTester.cpp.obj
+
+TreeTester.i: TreeTester.cpp.i
+.PHONY : TreeTester.i
+
+# target to preprocess a source file
+TreeTester.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\ex1.dir\TreeTester.cpp.i
+.PHONY : TreeTester.cpp.i
+
+TreeTester.s: TreeTester.cpp.s
+.PHONY : TreeTester.s
+
+# target to generate assembly for a file
+TreeTester.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\ex1.dir\TreeTester.cpp.s
+.PHONY : TreeTester.cpp.s
+
 main.obj: main.cpp.obj
 .PHONY : main.obj
 
@@ -151,6 +175,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... ex1
+	@echo ... TreeTester.obj
+	@echo ... TreeTester.i
+	@echo ... TreeTester.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
