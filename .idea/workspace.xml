@@ -20,22 +20,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e31b235-7f99-4def-aab1-f9e351d6aafc" name="Changes" comment="Updated 22.11.22 21:25&#10;SHROOMSSSSSSSSS">
-      <change afterPath="$PROJECT_DIR$/Player.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Score.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Team.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TreeTester.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WorldCup.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1.dir/objects1.rsp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1.dir/objects1.rsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
+    <list default="true" id="8e31b235-7f99-4def-aab1-f9e351d6aafc" name="Changes" comment="Updated 27.11.22 13:30&#10;Added Tree Tester which needs to be checked and how to work with, and Team,Player,WorldCup classes declarations and details, added Score class which will be our score fun object, still needs work">
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1.dir/compiler_depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1.dir/compiler_depend.internal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1.dir/compiler_depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1.dir/compiler_depend.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/ex1.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/ex1.cbp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +82,7 @@
       <workItem from="1668802941765" duration="29424000" />
       <workItem from="1669132575942" duration="3407000" />
       <workItem from="1669138523919" duration="5523000" />
-      <workItem from="1669543396960" duration="4921000" />
+      <workItem from="1669543396960" duration="6149000" />
     </task>
     <task id="LOCAL‎00001" summary="delete">
       <created>1669064225395</created>
@@ -116,7 +104,21 @@
       <option name="project" value="LOCAL" />
       <updated>1669145127457</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Updated 27.11.22 13:30&#10;Added Tree Tester which needs to be checked and how to work with, and Team,Player,WorldCup classes declarations and details, added Score class which will be our score fun object, still needs work">
+      <created>1669548652457</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1669548652457</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Updated 27.11.22 13:30&#10;Added Tree Tester which needs to be checked and how to work with, and Team,Player,WorldCup classes declarations and details, added Score class which will be our score fun object, still needs work">
+      <created>1669548663948</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1669548663948</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -138,7 +140,8 @@
     <MESSAGE value="delete" />
     <MESSAGE value="Updated 22.11.22 20:17&#10;SHROOMSSSSSSSSS" />
     <MESSAGE value="Updated 22.11.22 21:25&#10;SHROOMSSSSSSSSS" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated 22.11.22 21:25&#10;SHROOMSSSSSSSSS" />
+    <MESSAGE value="Updated 27.11.22 13:30&#10;Added Tree Tester which needs to be checked and how to work with, and Team,Player,WorldCup classes declarations and details, added Score class which will be our score fun object, still needs work" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated 27.11.22 13:30&#10;Added Tree Tester which needs to be checked and how to work with, and Team,Player,WorldCup classes declarations and details, added Score class which will be our score fun object, still needs work" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
