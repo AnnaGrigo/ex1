@@ -1,4 +1,8 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/ex1.dir/Player.cpp.obj"
+  "CMakeFiles/ex1.dir/Player.cpp.obj.d"
+  "CMakeFiles/ex1.dir/Team.cpp.obj"
+  "CMakeFiles/ex1.dir/Team.cpp.obj.d"
   "CMakeFiles/ex1.dir/WorldCup.cpp.obj"
   "CMakeFiles/ex1.dir/WorldCup.cpp.obj.d"
   "CMakeFiles/ex1.dir/main.cpp.obj"

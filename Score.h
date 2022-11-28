@@ -6,35 +6,51 @@ class Score
 {
 public:
     int goals;
-    int tickets;
-    int games_played;
+    int cards;
+    int player_id;
 
-    Score() = default;
-    Score(int new_goals, int new_tickets, int new_games_played)
+    Score() : goals(0), cards(0), player_id(0) {}
+    Score(int new_goals, int new_cards, int new_player_id)
             : goals(new_goals)
-            , tickets(new_tickets)
-            , games_played(new_games_played)
+            , cards(new_cards)
+            , player_id(new_player_id)
     {
     }
     Score(const Score &other)
     {
         this->goals = other.goals;
-        this->tickets = other.tickets;
-        this->games_played = other.games_played;
+        this->cards = other.cards;
+        this->player_id = other.player_id;
     }
 
-    friend bool operator<(Score score1, Score score2)
+    friend bool operator<(const Score& score1, const Score& score2)
     {
         if (score1.goals != score2.goals)
         {
             return score1.goals < score2.goals;
         }
-        if (score1.tickets != score2.tickets)
+        if (score1.cards != score2.cards)
         {
-            return score1.tickets < score2.tickets;
+            return score1.cards > score2.cards;
         }
-        return score1.games_played < score2.games_played;
+        return score1.player_id < score2.player_id;
     }
+
+    friend bool operator>(const Score& score1, const Score& score2)
+    {
+        if (score1.goals != score2.goals)
+        {
+            return score1.goals > score2.goals;
+        }
+        if (score1.cards != score2.cards)
+        {
+            return score1.cards < score2.cards;
+        }
+        return score1.player_id > score2.player_id;
+    }
+
+
+    
 };
 
 #endif //RATUV1_SCORE_H

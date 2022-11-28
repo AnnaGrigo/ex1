@@ -4,7 +4,7 @@
 #include <iostream>
 #include "Pair.h"
 
-enum class returnMessage{
+enum class StatusType{
     ALLOCATION_ERROR, INVALID_INPUT, FAILURE, SUCCESS
 };
 
@@ -54,10 +54,10 @@ public:
     AvlNode<Key, Value>* RL(AvlNode<Key, Value> *node);
     AvlNode<Key, Value>* LR(AvlNode<Key, Value> *node);
     AvlNode<Key, Value>* Rotate(AvlNode<Key, Value> *node);
-    returnMessage Insert(Key key, Value value);
-    returnMessage InsertNode(AvlNode<Key, Value> *root, AvlNode<Key, Value> *parent, AvlNode<Key, Value> *toInsert);
-    returnMessage deleteNode(AvlNode<Key, Value>* node,AvlNode<Key, Value>* nodeParent, Key id);
-    returnMessage Delete(Key key);
+    StatusType Insert(Key key, Value value);
+    StatusType InsertNode(AvlNode<Key, Value> *root, AvlNode<Key, Value> *parent, AvlNode<Key, Value> *toInsert);
+    StatusType deleteNode(AvlNode<Key, Value>* node,AvlNode<Key, Value>* nodeParent, Key id);
+    StatusType Delete(Key key);
     AvlNode<Key, Value> *Find(Key key) const;
     void Merge(AvlTree<Key, Value> &second_tree);
     void InOrder(AvlNode<Key, Value>* root,Pair<Key, Value> arr[]);
@@ -222,19 +222,19 @@ AvlNode<Key, Value>* AvlTree<Key, Value>::Rotate(AvlNode<Key, Value> *node) {
 }
 
 template<class Key, class Value>
-returnMessage AvlTree<Key, Value>::Insert(Key key, Value value) {
+StatusType AvlTree<Key, Value>::Insert(Key key, Value value) {
     auto* node =  new AvlNode<Key, Value>(key,value);
     if(!root){
         root = node;
         size++;
-        return returnMessage::SUCCESS;
+        return StatusType::SUCCESS;
     } else{
         return InsertNode(root, nullptr,node);
     }
 }
 
 template<class Key, class Value>
-returnMessage
+StatusType
 AvlTree<Key, Value>::InsertNode(AvlNode<Key, Value> *rootNode, AvlNode<Key, Value> *newParent, AvlNode<Key, Value> *toInsert) {
     if (!rootNode){
         rootNode = toInsert;
@@ -247,7 +247,7 @@ AvlTree<Key, Value>::InsertNode(AvlNode<Key, Value> *rootNode, AvlNode<Key, Valu
         size++;
     }
     else if(rootNode->key == toInsert->key){
-        return returnMessage::FAILURE;
+        return StatusType::FAILURE;
 
     }
     else if(rootNode->key > toInsert->key){
@@ -265,7 +265,7 @@ AvlTree<Key, Value>::InsertNode(AvlNode<Key, Value> *rootNode, AvlNode<Key, Valu
         newParent->height = (1 + std::max(rHeight, lHeight));
         this->Rotate(newParent);
     }
-    return returnMessage::SUCCESS;
+    return StatusType::SUCCESS;
 }
 
 template<class Key, class Value>
@@ -289,14 +289,14 @@ AvlNode<Key, Value>* findMaxNode (AvlNode<Key,Value>* root) {
 }
 
 template<class Key, class Value>
-returnMessage AvlTree<Key, Value>::Delete(Key key) {
+StatusType AvlTree<Key, Value>::Delete(Key key) {
     return deleteNode(root, nullptr, key);
 }
 
 template<class Key, class Value>
-returnMessage AvlTree<Key, Value>::deleteNode(AvlNode<Key, Value>* node ,AvlNode<Key, Value>* nodeParent, Key id){
+StatusType AvlTree<Key, Value>::deleteNode(AvlNode<Key, Value>* node ,AvlNode<Key, Value>* nodeParent, Key id){
     if(!node){
-        return returnMessage::FAILURE;
+        return StatusType::FAILURE;
     }
     if (node->key > id){
         return deleteNode(node->left_son, node,id);
@@ -371,7 +371,7 @@ returnMessage AvlTree<Key, Value>::deleteNode(AvlNode<Key, Value>* node ,AvlNode
         nodeParent->height = (1 + std::max(rHeight, lHeight));
         this->Rotate(nodeParent);
     }
-    return returnMessage::SUCCESS;
+    return StatusType::SUCCESS;
 }
 
 

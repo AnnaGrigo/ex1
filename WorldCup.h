@@ -18,7 +18,7 @@ public:
     AvlTree<int, Team*> legal_teams_by_id;
     AvlTree<int, Player*> all_players_by_id;
     AvlTree<Score, Player*> all_players_by_score;
-    int top_player_score;
+    Score top_player_score;
     Player* top_player;
 
 
@@ -27,7 +27,7 @@ public:
     StatusType AddTeam(int teamID, int points);
     StatusType RemoveTeam(int teamID);
     StatusType AddPlayer(int playerID, int teamID, int GamesPlayed, int goals,
-                         int tickets, bool isGoalkeeper);
+                         int cards, bool isGoalkeeper);
     StatusType RemovePlayer(int playerID);
     StatusType UpdatePlayer(int playerID,int gamesPlayed, int ScoredGoals, int CardsReceived);
     StatusType PlayMatch(int teamID1, int teamID2);

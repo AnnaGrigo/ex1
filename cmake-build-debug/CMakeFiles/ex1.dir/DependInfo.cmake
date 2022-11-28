@@ -8,6 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "C:/Users/user/CLionProjects/RatuvMivne1/ex1/Player.cpp" "CMakeFiles/ex1.dir/Player.cpp.obj" "msvc" "CMakeFiles/ex1.dir/Player.cpp.obj.d"
+  "C:/Users/user/CLionProjects/RatuvMivne1/ex1/Team.cpp" "CMakeFiles/ex1.dir/Team.cpp.obj" "msvc" "CMakeFiles/ex1.dir/Team.cpp.obj.d"
   "C:/Users/user/CLionProjects/RatuvMivne1/ex1/WorldCup.cpp" "CMakeFiles/ex1.dir/WorldCup.cpp.obj" "msvc" "CMakeFiles/ex1.dir/WorldCup.cpp.obj.d"
   "C:/Users/user/CLionProjects/RatuvMivne1/ex1/main.cpp" "CMakeFiles/ex1.dir/main.cpp.obj" "msvc" "CMakeFiles/ex1.dir/main.cpp.obj.d"
   )
