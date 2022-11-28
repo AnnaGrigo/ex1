@@ -3,8 +3,9 @@
 #define RATUV1_TEAM_H
 
 #include "AvlTree.h"
-#include "Player.h"
 #include "Score.h"
+#include "Player.h"
+
 
 class Team {
 public:

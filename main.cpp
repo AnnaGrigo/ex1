@@ -8,7 +8,6 @@
 
 int main() {
 
-    returnMessage message = returnMessage::SUCCESS;
     AvlTree<int,int> avl1;
     AvlTree<int,int> avl2;
     avl1.Insert(6,6);
