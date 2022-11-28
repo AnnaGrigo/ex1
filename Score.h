@@ -49,6 +49,10 @@ public:
         return score1.player_id > score2.player_id;
     }
 
+    friend bool operator==(const Score& score1, const Score& score2)
+    {
+        return score1.goals == score2.goals && score1.cards == score2.cards && score1.player_id == score2.player_id;
+    }
 
     
 };

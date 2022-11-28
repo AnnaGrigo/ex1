@@ -63,9 +63,6 @@ public:
     void InOrder(AvlNode<Key, Value>* root,Pair<Key, Value> arr[]);
     void ArrayToAvlTree(Pair<Key, Value> *arr, int arr_len);
     AvlNode<Key, Value> *ArrayToAvlTreeFunc(Pair<Key, Value> arr[], int begin, int end);
-    AvlNode<Key, Value> *Find(AvlNode<Key, Value> *root, Key key) const;
-
-
 };
 
 // Constructor
@@ -508,19 +505,6 @@ void AvlTree<Key, Value>::InOrder(AvlNode<Key, Value> *tree_root, Pair<Key, Valu
     InOrderFunc(tree_root, arr, i);
 }
 
-template<class Key, class Value>
-AvlNode<Key, Value> *AvlTree<Key, Value>::Find(AvlNode<Key, Value> *root, Key key) const {
-    if(!root){
-        return nullptr;
-    }
-    if(root->key == key){
-        return root;
-    } else if (root->key > key)
-        Find(root->left_son,key);
-    else if(root->key < key){
-        Find(root->right_son,key);
-    }
-}
 
 // A utility function for InOrder
 template <class Key, class Value>
