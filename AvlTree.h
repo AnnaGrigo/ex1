@@ -57,7 +57,7 @@ public:
     StatusType Delete(Key key);
     AvlNode<Key, Value> *Find(Key key) const;
     void Merge(AvlTree<Key, Value> &second_tree);
-    void InOrder(AvlNode<Key, Value>* root,Pair<Key, Value> arr[]);
+    Pair<Key, Value>* InOrder(AvlNode<Key, Value>* root,Pair<Key, Value> arr[]);
     void ArrayToAvlTree(Pair<Key, Value> *arr, int arr_len);
     AvlNode<Key, Value> *ArrayToAvlTreeFunc(Pair<Key, Value> arr[], int begin, int end);
 };
@@ -496,10 +496,10 @@ void ArrayToAvlTreeParentFunc(AvlNode<Key, Value> *root)
 
 // A utility function that recieves an AVL tree and an empty array and sorts inorder trans into the array
 template <class Key, class Value>
-void AvlTree<Key, Value>::InOrder(AvlNode<Key, Value> *tree_root, Pair<Key, Value> arr[])
+Pair<Key, Value>* AvlTree<Key, Value>::InOrder(AvlNode<Key, Value> *tree_root, Pair<Key, Value> arr[])
 {
     int i = 0;
-    arr = InOrderFunc(tree_root, arr, i);
+    return InOrderFunc(tree_root, arr, i);
 }
 
 
