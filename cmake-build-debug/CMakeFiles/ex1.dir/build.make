@@ -78,22 +78,9 @@ CMakeFiles/ex1.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex1.dir/main.cpp.s"
 	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\annag\CLionProjects\mivne\ex1\main.cpp -o CMakeFiles\ex1.dir\main.cpp.s
 
-CMakeFiles/ex1.dir/worldcup23a1.cpp.obj: CMakeFiles/ex1.dir/flags.make
-CMakeFiles/ex1.dir/worldcup23a1.cpp.obj: ../worldcup23a1.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\annag\CLionProjects\mivne\ex1\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/ex1.dir/worldcup23a1.cpp.obj"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\ex1.dir\worldcup23a1.cpp.obj -c C:\Users\annag\CLionProjects\mivne\ex1\worldcup23a1.cpp
-
-CMakeFiles/ex1.dir/worldcup23a1.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex1.dir/worldcup23a1.cpp.i"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\annag\CLionProjects\mivne\ex1\worldcup23a1.cpp > CMakeFiles\ex1.dir\worldcup23a1.cpp.i
-
-CMakeFiles/ex1.dir/worldcup23a1.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex1.dir/worldcup23a1.cpp.s"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\annag\CLionProjects\mivne\ex1\worldcup23a1.cpp -o CMakeFiles\ex1.dir\worldcup23a1.cpp.s
-
 CMakeFiles/ex1.dir/Player.cpp.obj: CMakeFiles/ex1.dir/flags.make
 CMakeFiles/ex1.dir/Player.cpp.obj: ../Player.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\annag\CLionProjects\mivne\ex1\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/ex1.dir/Player.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\annag\CLionProjects\mivne\ex1\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/ex1.dir/Player.cpp.obj"
 	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\ex1.dir\Player.cpp.obj -c C:\Users\annag\CLionProjects\mivne\ex1\Player.cpp
 
 CMakeFiles/ex1.dir/Player.cpp.i: cmake_force
@@ -106,7 +93,7 @@ CMakeFiles/ex1.dir/Player.cpp.s: cmake_force
 
 CMakeFiles/ex1.dir/Team.cpp.obj: CMakeFiles/ex1.dir/flags.make
 CMakeFiles/ex1.dir/Team.cpp.obj: ../Team.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\annag\CLionProjects\mivne\ex1\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/ex1.dir/Team.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\annag\CLionProjects\mivne\ex1\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/ex1.dir/Team.cpp.obj"
 	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\ex1.dir\Team.cpp.obj -c C:\Users\annag\CLionProjects\mivne\ex1\Team.cpp
 
 CMakeFiles/ex1.dir/Team.cpp.i: cmake_force
@@ -117,40 +104,23 @@ CMakeFiles/ex1.dir/Team.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex1.dir/Team.cpp.s"
 	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\annag\CLionProjects\mivne\ex1\Team.cpp -o CMakeFiles\ex1.dir\Team.cpp.s
 
-CMakeFiles/ex1.dir/WorldCup.cpp.obj: CMakeFiles/ex1.dir/flags.make
-CMakeFiles/ex1.dir/WorldCup.cpp.obj: ../WorldCup.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\annag\CLionProjects\mivne\ex1\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/ex1.dir/WorldCup.cpp.obj"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\ex1.dir\WorldCup.cpp.obj -c C:\Users\annag\CLionProjects\mivne\ex1\WorldCup.cpp
-
-CMakeFiles/ex1.dir/WorldCup.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex1.dir/WorldCup.cpp.i"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\annag\CLionProjects\mivne\ex1\WorldCup.cpp > CMakeFiles\ex1.dir\WorldCup.cpp.i
-
-CMakeFiles/ex1.dir/WorldCup.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex1.dir/WorldCup.cpp.s"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\annag\CLionProjects\mivne\ex1\WorldCup.cpp -o CMakeFiles\ex1.dir\WorldCup.cpp.s
-
 # Object files for target ex1
 ex1_OBJECTS = \
 "CMakeFiles/ex1.dir/main.cpp.obj" \
-"CMakeFiles/ex1.dir/worldcup23a1.cpp.obj" \
 "CMakeFiles/ex1.dir/Player.cpp.obj" \
-"CMakeFiles/ex1.dir/Team.cpp.obj" \
-"CMakeFiles/ex1.dir/WorldCup.cpp.obj"
+"CMakeFiles/ex1.dir/Team.cpp.obj"
 
 # External object files for target ex1
 ex1_EXTERNAL_OBJECTS =
 
 ex1.exe: CMakeFiles/ex1.dir/main.cpp.obj
-ex1.exe: CMakeFiles/ex1.dir/worldcup23a1.cpp.obj
 ex1.exe: CMakeFiles/ex1.dir/Player.cpp.obj
 ex1.exe: CMakeFiles/ex1.dir/Team.cpp.obj
-ex1.exe: CMakeFiles/ex1.dir/WorldCup.cpp.obj
 ex1.exe: CMakeFiles/ex1.dir/build.make
 ex1.exe: CMakeFiles/ex1.dir/linklibs.rsp
 ex1.exe: CMakeFiles/ex1.dir/objects1.rsp
 ex1.exe: CMakeFiles/ex1.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\annag\CLionProjects\mivne\ex1\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable ex1.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\annag\CLionProjects\mivne\ex1\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable ex1.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\ex1.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

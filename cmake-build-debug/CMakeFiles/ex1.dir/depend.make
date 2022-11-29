@@ -16,21 +16,8 @@ CMakeFiles/ex1.dir/Team.cpp.obj: \
  ../Team.cpp \
  ../Team.h \
  ../wet1util.h
-CMakeFiles/ex1.dir/WorldCup.cpp.obj: \
- ../AvlTree.h \
- ../Pair.h \
- ../Player.h \
- ../Score.h \
- ../Team.h \
- ../WorldCup.cpp \
- ../WorldCup.h \
- ../wet1util.h
 CMakeFiles/ex1.dir/main.cpp.obj: \
  ../AvlTree.h \
  ../Pair.h \
  ../main.cpp \
  ../wet1util.h
-CMakeFiles/ex1.dir/worldcup23a1.cpp.obj: \
- ../wet1util.h \
- ../worldcup23a1.cpp \
- ../worldcup23a1.h

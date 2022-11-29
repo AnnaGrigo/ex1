@@ -517,10 +517,46 @@ Pair<Key, Value>* InOrderFunc(AvlNode<Key, Value> *root, Pair<Key, Value> arr[],
     index++;
     InOrderFunc(root->right_son, arr, index);
 }
+//doesnt work >:(
 template <class Key, class Value>
-Pair<Key,Value>* limitedInorder(AvlNode<Key, Value> *root,Pair<Key, Value> arr[],Key maxKey,Key minKey){
+Pair<Key,Value>* limitedInorder(AvlNode<Key, Value> *root,Pair<Key, Value> arr[],Key maxKey,Key minKey) {
+    if (!root)
+    {
+        return arr;
+    }
+    if(root->key <= maxKey && root->key >= minKey){
+        return limitedInorderHelper(root,arr,maxKey,minKey,0);
+    }
+    if(root->key > maxKey){
+        limitedInorder(root->left_son,arr,maxKey,minKey);
+    }
+    if(root->key < minKey){
+        limitedInorder(root->right_son,arr,maxKey,minKey);
+    }
+}
+
+template <class Key, class Value>
+Pair<Key,Value>* limitedInorderIndexFinder(AvlNode<Key, Value> *root,Pair<Key, Value> arr[],Key maxKey,Key minKey ,int index){
 
 }
+
+template <class Key, class Value>
+Pair<Key,Value>* limitedInorderHelper(AvlNode<Key, Value> *root,Pair<Key, Value> arr[],Key maxKey,Key minKey ,int index){
+    if (!root)
+    {
+        return arr;
+    }
+    if(root->key < minKey || root->key > maxKey){
+        return arr;
+    }
+    limitedInorderHelper(root->left_son, arr,maxKey,minKey ,index);
+    arr[index].key = root->key;
+    arr[index].value = root->value;
+    index++;
+    limitedInorderHelper(root->right_son, arr,maxKey,minKey , index);
+}
+
+
 
 template<class Key, class Value>
 int is_tree_valid(AvlNode<Key, Value> *root) {

@@ -176,30 +176,6 @@ Team.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/Team.cpp.s
 .PHONY : Team.cpp.s
 
-WorldCup.obj: WorldCup.cpp.obj
-.PHONY : WorldCup.obj
-
-# target to build an object file
-WorldCup.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/WorldCup.cpp.obj
-.PHONY : WorldCup.cpp.obj
-
-WorldCup.i: WorldCup.cpp.i
-.PHONY : WorldCup.i
-
-# target to preprocess a source file
-WorldCup.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/WorldCup.cpp.i
-.PHONY : WorldCup.cpp.i
-
-WorldCup.s: WorldCup.cpp.s
-.PHONY : WorldCup.s
-
-# target to generate assembly for a file
-WorldCup.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/WorldCup.cpp.s
-.PHONY : WorldCup.cpp.s
-
 main.obj: main.cpp.obj
 .PHONY : main.obj
 
@@ -224,30 +200,6 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-worldcup23a1.obj: worldcup23a1.cpp.obj
-.PHONY : worldcup23a1.obj
-
-# target to build an object file
-worldcup23a1.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/worldcup23a1.cpp.obj
-.PHONY : worldcup23a1.cpp.obj
-
-worldcup23a1.i: worldcup23a1.cpp.i
-.PHONY : worldcup23a1.i
-
-# target to preprocess a source file
-worldcup23a1.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/worldcup23a1.cpp.i
-.PHONY : worldcup23a1.cpp.i
-
-worldcup23a1.s: worldcup23a1.cpp.s
-.PHONY : worldcup23a1.s
-
-# target to generate assembly for a file
-worldcup23a1.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/worldcup23a1.cpp.s
-.PHONY : worldcup23a1.cpp.s
-
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -263,15 +215,9 @@ help:
 	@echo ... Team.obj
 	@echo ... Team.i
 	@echo ... Team.s
-	@echo ... WorldCup.obj
-	@echo ... WorldCup.i
-	@echo ... WorldCup.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
-	@echo ... worldcup23a1.obj
-	@echo ... worldcup23a1.i
-	@echo ... worldcup23a1.s
 .PHONY : help
 
 

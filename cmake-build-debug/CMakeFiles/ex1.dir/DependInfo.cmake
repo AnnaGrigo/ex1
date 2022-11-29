@@ -10,9 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "C:/Users/annag/CLionProjects/mivne/ex1/Player.cpp" "C:/Users/annag/CLionProjects/mivne/ex1/cmake-build-debug/CMakeFiles/ex1.dir/Player.cpp.obj"
   "C:/Users/annag/CLionProjects/mivne/ex1/Team.cpp" "C:/Users/annag/CLionProjects/mivne/ex1/cmake-build-debug/CMakeFiles/ex1.dir/Team.cpp.obj"
-  "C:/Users/annag/CLionProjects/mivne/ex1/WorldCup.cpp" "C:/Users/annag/CLionProjects/mivne/ex1/cmake-build-debug/CMakeFiles/ex1.dir/WorldCup.cpp.obj"
   "C:/Users/annag/CLionProjects/mivne/ex1/main.cpp" "C:/Users/annag/CLionProjects/mivne/ex1/cmake-build-debug/CMakeFiles/ex1.dir/main.cpp.obj"
-  "C:/Users/annag/CLionProjects/mivne/ex1/worldcup23a1.cpp" "C:/Users/annag/CLionProjects/mivne/ex1/cmake-build-debug/CMakeFiles/ex1.dir/worldcup23a1.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
