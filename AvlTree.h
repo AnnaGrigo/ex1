@@ -499,17 +499,17 @@ template <class Key, class Value>
 void AvlTree<Key, Value>::InOrder(AvlNode<Key, Value> *tree_root, Pair<Key, Value> arr[])
 {
     int i = 0;
-    InOrderFunc(tree_root, arr, i);
+    arr = InOrderFunc(tree_root, arr, i);
 }
 
 
 // A utility function for InOrder
 template <class Key, class Value>
-void InOrderFunc(AvlNode<Key, Value> *root, Pair<Key, Value> arr[], int &index)
+Pair<Key, Value>* InOrderFunc(AvlNode<Key, Value> *root, Pair<Key, Value> arr[], int &index)
 {
     if (!root)
     {
-        return;
+        return arr;
     }
     InOrderFunc(root->left_son, arr, index);
     arr[index].key = root->key;
