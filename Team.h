@@ -4,8 +4,8 @@
 
 #include "AvlTree.h"
 #include "Score.h"
-#include "Player.h"
 
+class Player;
 
 class Team {
 public:
@@ -25,6 +25,6 @@ public:
 
 };
 
-bool Is_Team_Legal(Team* team);
+bool Is_Team_Legal(Team* );
 
 #endif //RATUV1_TEAM_H

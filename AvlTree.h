@@ -3,10 +3,7 @@
 
 #include <iostream>
 #include "Pair.h"
-
-enum class StatusType{
-    ALLOCATION_ERROR, INVALID_INPUT, FAILURE, SUCCESS
-};
+#include "wet1util.h"
 
 template<class Key, class Value>
 class AvlNode {

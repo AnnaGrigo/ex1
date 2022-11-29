@@ -7,10 +7,6 @@
 #include "Team.h"
 #include "Score.h"
 
-enum class StatusType{
-    ALLOCATION_ERROR, INVALID_INPUT, FAILURE, SUCCESS
-};
-
 class WorldCup
 {
 public:
