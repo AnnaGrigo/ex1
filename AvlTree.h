@@ -517,6 +517,10 @@ Pair<Key, Value>* InOrderFunc(AvlNode<Key, Value> *root, Pair<Key, Value> arr[],
     index++;
     InOrderFunc(root->right_son, arr, index);
 }
+template <class Key, class Value>
+Pair<Key,Value>* limitedInorder(AvlNode<Key, Value> *root,Pair<Key, Value> arr[],Key maxKey,Key minKey){
+
+}
 
 template<class Key, class Value>
 int is_tree_valid(AvlNode<Key, Value> *root) {

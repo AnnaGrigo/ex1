@@ -17,7 +17,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e31b235-7f99-4def-aab1-f9e351d6aafc" name="Changes" comment="changed inorder">
+    <list default="true" id="8e31b235-7f99-4def-aab1-f9e351d6aafc" name="Changes" comment="moved all functions from worldcup.cpp to worldcup23a1.cpp">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AvlTree.h" beforeDir="false" afterPath="$PROJECT_DIR$/AvlTree.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/worldcup23a1.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/worldcup23a1.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -156,7 +158,13 @@
       <option name="presentableId" value="LOCAL‎00012" />
       <updated>1669743289345</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL‎00013" summary="moved all functions from worldcup.cpp to worldcup23a1.cpp">
+      <created>1669744473598</created>
+      <option name="number" value="LOCAL‎00013" />
+      <option name="presentableId" value="LOCAL‎00013" />
+      <updated>1669744473598</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -184,7 +192,8 @@
     <MESSAGE value="Updated 27.11.22 13:30&#10;yalla maccabi" />
     <MESSAGE value="few world cup functions, deleted unnecessary enum definitions" />
     <MESSAGE value="changed inorder" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed inorder" />
+    <MESSAGE value="moved all functions from worldcup.cpp to worldcup23a1.cpp" />
+    <option name="LAST_COMMIT_MESSAGE" value="moved all functions from worldcup.cpp to worldcup23a1.cpp" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

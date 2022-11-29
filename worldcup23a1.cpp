@@ -49,18 +49,25 @@ StatusType world_cup_t::remove_team(int teamId)
 StatusType world_cup_t::add_player(int playerId, int teamId, int gamesPlayed,
                                    int goals, int cards, bool goalKeeper)
 {
+    if(goals < 0 || gamesPlayed < 0 || teamId <= 0 || playerId <= 0 || cards < 0 || (gamesPlayed == 0 && (goals > 0 || cards>0))){
+        return StatusType::INVALID_INPUT;
+    }
     //check if team/player already exists
     if (all_players_by_id.Find(playerId) != nullptr) {
         return StatusType::FAILURE;
     }
-    if (teams_by_id.Find(teamId) != nullptr) {
+    if (teams_by_id.Find(teamId) == nullptr) {
         return StatusType::FAILURE;
     }
-    Player* new_player = new Player(playerId, teamId,
-                                    gamesPlayed, goals, cards, goalKeeper);
-    if (!new_player) {
+    Player* new_player;
+    try{
+        new_player = new Player(playerId, teamId,
+                                        gamesPlayed, goals, cards, goalKeeper);
+    }
+    catch (std::bad_alloc&){
         return StatusType::ALLOCATION_ERROR;
     }
+
     Team* my_team = (teams_by_id.Find(teamId))->value;
     new_player->my_team = my_team;
     //update team goalkeepers
@@ -110,7 +117,6 @@ StatusType world_cup_t::add_player(int playerId, int teamId, int gamesPlayed,
         }
     }
     return StatusType::SUCCESS;
-
 }
 
 StatusType world_cup_t::remove_player(int playerId)
@@ -291,6 +297,9 @@ output_t<int> world_cup_t::get_top_scorer(int teamId)
 
 output_t<int> world_cup_t::get_all_players_count(int teamId)
 {
+    if(teamId == 0){
+        return StatusType::INVALID_INPUT;
+    }
     if(teams_by_id.Find(teamId) == nullptr) {
         return StatusType::FAILURE;
     }
@@ -305,10 +314,35 @@ output_t<int> world_cup_t::get_all_players_count(int teamId)
 
 StatusType world_cup_t::get_all_players(int teamId, int *const output)
 {
-	// TODO: Your code goes here
-    output[0] = 4001;
-    output[1] = 4002;
-	return StatusType::SUCCESS;
+	if(teamId == 0 || output == nullptr){
+        return StatusType::INVALID_INPUT;
+    }
+    int arraySize = 0;
+    Pair<Score, Player*>* playerArray;
+    if (teamId < 0){
+        arraySize = all_players_by_score.size;
+        try {
+            playerArray = new Pair<Score, Player*>[arraySize];
+        }
+        catch (std::bad_alloc&){
+            return StatusType::ALLOCATION_ERROR;
+        }
+        playerArray = all_players_by_score.InOrder(all_players_by_score.root , playerArray);
+    }
+    if (teamId > 0){
+        AvlNode<int, Team*>* team = teams_by_id.Find(teamId);
+        arraySize = team->value->team_players_by_id.size;
+        try {
+            playerArray = new Pair<Score, Player*>[arraySize];
+        }
+        catch (std::bad_alloc&){
+            return StatusType::ALLOCATION_ERROR;
+        }
+        playerArray = team->value->team_players_by_score.InOrder(all_players_by_score.root , playerArray);
+    }
+    for (int i = 0; i < arraySize; ++i) {
+        output[i] = playerArray[i].value->goals;
+    }
 }
 
 output_t<int> world_cup_t::get_closest_player(int playerId, int teamId)
