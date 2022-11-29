@@ -14,7 +14,8 @@ WorldCup::~WorldCup() {
 }
 
 StatusType WorldCup::AddTeam(int teamID, int points) {
-    if ((teams_by_id.Find(teamID))->key != teamID) {
+    //check if team already exists
+    if (teams_by_id.Find(teamID) != nullptr) {
         return StatusType::FAILURE;
     }
     Team* new_team = new Team(teamID, points);
@@ -25,7 +26,16 @@ StatusType WorldCup::AddTeam(int teamID, int points) {
 }
 
 StatusType WorldCup::RemoveTeam(int teamID) {
-    return StatusType::FAILURE;
+    //check if team exists
+    if ((teams_by_id.Find(teamID))->key != teamID) {
+        return StatusType::FAILURE;
+    }
+    Team *my_team = teams_by_id.Find(teamID)->value;
+    //check if team is empty
+    if(my_team->team_players_by_id.size > 0) {
+        return StatusType::FAILURE;
+    }
+    StatusType stats = teams_by_id.Delete(teamID);
 }
 
 StatusType WorldCup::AddPlayer(int playerID, int teamID, int GamesPlayed, int goals, int cards, bool isGoalkeeper) {
@@ -89,9 +99,7 @@ StatusType WorldCup::AddPlayer(int playerID, int teamID, int GamesPlayed, int go
             return status;
         }
     }
-
-
-
+    return StatusType::SUCCESS;
 
 }
 
@@ -202,15 +210,19 @@ output_t<int> WorldCup::GetTeamPoints(int teamID) {
 }
 
 StatusType WorldCup::UniteTeams(int teamID1, int teamID2, int NewTeamId) {
+    //check if teamID1 and teamID2 exists
     if(teams_by_id.Find(teamID1) == nullptr) {
         return StatusType::FAILURE;
     }
     if(teams_by_id.Find(teamID2) == nullptr) {
         return StatusType::FAILURE;
     }
+    //check if NewTeamId exists and its teamID1 or teamID2
     if(teams_by_id.Find(NewTeamId) != nullptr & NewTeamId != teamID1 & NewTeamId != teamID2) {
         return StatusType::FAILURE;
     }
+
+
 
 }
 
