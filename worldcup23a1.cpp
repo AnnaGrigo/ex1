@@ -21,6 +21,9 @@ world_cup_t::~world_cup_t()
 
 StatusType world_cup_t::add_team(int teamId, int points)
 {
+    if(teamId<=0 || points<0){
+        return StatusType::INVALID_INPUT;
+    }
     //check if team already exists
     if (teams_by_id.Find(teamId) != nullptr) {
         return StatusType::FAILURE;
@@ -34,6 +37,9 @@ StatusType world_cup_t::add_team(int teamId, int points)
 
 StatusType world_cup_t::remove_team(int teamId)
 {
+    if(teamId<=0){
+        return StatusType::INVALID_INPUT;
+    }
     //check if team exists
     if ((teams_by_id.Find(teamId))->key != teamId) {
         return StatusType::FAILURE;
@@ -116,11 +122,22 @@ StatusType world_cup_t::add_player(int playerId, int teamId, int gamesPlayed,
             return status;
         }
     }
+    AvlNode<Score, Player*> *x = all_players_by_score.Find(new_player_score_all); //idk why its happening
+    //add to new player the closest players InOrder
+    new_player->next_player_in_score =
+            all_players_by_score.Next_InOrder(all_players_by_score.Find(new_player_score_all))->value;
+    new_player->prev_player_in_score =
+            all_players_by_score.Prev_InOrder(all_players_by_score.Find(new_player_score_all))->value;
+    new_player->next_player_in_score->prev_player_in_score = new_player;
+    new_player->prev_player_in_score->next_player_in_score = new_player;
     return StatusType::SUCCESS;
 }
 
 StatusType world_cup_t::remove_player(int playerId)
 {
+    if(playerId<=0) {
+        return StatusType::INVALID_INPUT;
+    }
     if(all_players_by_id.Find(playerId) == nullptr) {
         return StatusType::FAILURE;
     }
@@ -131,6 +148,9 @@ StatusType world_cup_t::remove_player(int playerId)
     if(player_to_remove->is_goalkeeper) {
         my_team->num_of_goalkeepers--;
     }
+    //save the closest players InOrder before removing
+    Player* next_player_in_score = player_to_remove->next_player_in_score;
+    Player* prev_player_in_score = player_to_remove->prev_player_in_score;
     //update team value
     my_team->value -= (player_to_remove->goals - player_to_remove->cards);
     //remove player from all players by id tree
@@ -183,9 +203,14 @@ StatusType world_cup_t::remove_player(int playerId)
         else {
             my_team->top_team_player = (findMaxNode(my_team->team_players_by_score.root))->value;
             my_team->top_team_player_score =
-                    Score(my_team->top_team_player->goals, my_team->top_team_player->cards, my_team->top_team_player->player_id);
+                    Score(my_team->top_team_player->goals,
+                          my_team->top_team_player->cards,
+                          my_team->top_team_player->player_id);
         }
     }
+    //update the closest players InOrder
+    next_player_in_score->prev_player_in_score = prev_player_in_score;
+    prev_player_in_score->next_player_in_score = next_player_in_score;
     delete player_to_remove;
     return StatusType::SUCCESS;
 }
@@ -193,6 +218,9 @@ StatusType world_cup_t::remove_player(int playerId)
 StatusType world_cup_t::update_player_stats(int playerId, int gamesPlayed,
                                         int scoredGoals, int cardsReceived)
 {
+    if(playerId<=0 || gamesPlayed<0 || scoredGoals<0 || cardsReceived<0) {
+        return StatusType::INVALID_INPUT;
+    }
     Player* my_player = (all_players_by_id.Find(playerId)->value);
     if (my_player->player_id != playerId) {
         return StatusType::FAILURE;
@@ -267,8 +295,55 @@ output_t<int> world_cup_t::get_team_points(int teamId)
 
 StatusType world_cup_t::unite_teams(int teamId1, int teamId2, int newTeamId)
 {
-	// TODO: Your code goes here
-	return StatusType::SUCCESS;
+	if(teamId1 <= 0 || teamId2 <= 0 || teamId1 == teamId2 || newTeamId <= 0)
+    {
+        return StatusType::INVALID_INPUT;
+    }
+    //check if teamID1 and teamID2 exists
+    if(teams_by_id.Find(teamId1) == nullptr) {
+        return StatusType::FAILURE;
+    }
+    if(teams_by_id.Find(teamId2) == nullptr) {
+        return StatusType::FAILURE;
+    }
+    //check if NewTeamId exists and its teamID1 or teamID2
+    if(teams_by_id.Find(newTeamId) != nullptr & newTeamId != teamId1 & newTeamId != teamId2) {
+        return StatusType::FAILURE;
+    }
+    Team* team1 = teams_by_id.Find(teamId1)->value;
+    Team* team2 = teams_by_id.Find(teamId2)->value;
+    change_players_games(team1->team_players_by_id.root,team1->all_team_games_played);
+    change_players_games(team2->team_players_by_id.root,team2->all_team_games_played);
+    if(team1->team_players_by_id.Merge(team2->team_players_by_id) == StatusType::ALLOCATION_ERROR){
+        team1->all_team_games_played = 0;
+        team2->all_team_games_played = 0;
+        return StatusType::ALLOCATION_ERROR;
+    }
+    if(team1->team_players_by_score.Merge(team2->team_players_by_score) == StatusType::ALLOCATION_ERROR){
+        team1->all_team_games_played = 0;
+        team2->all_team_games_played = 0;
+        return StatusType::ALLOCATION_ERROR;
+    }
+    team1->num_of_goalkeepers += team2->num_of_goalkeepers;
+    team1->points += team2->points;
+    team1->value += team2->value;
+    team1->all_team_games_played = 0;
+    if(team1->top_team_player_score < team2->top_team_player_score) {
+        team1->top_team_player = team2->top_team_player;
+        team1->top_team_player_score = team2->top_team_player_score;
+    }
+    teams_by_id.Delete(teamId1);
+    teams_by_id.Delete(teamId2);
+    team1->team_id = newTeamId;
+    if(teams_by_id.Insert(newTeamId,team1) == StatusType::ALLOCATION_ERROR){
+        return StatusType::ALLOCATION_ERROR;
+    }
+    legal_teams_by_id.Delete(teamId1);
+    legal_teams_by_id.Delete(teamId2);
+    if(Is_Team_Legal(team1)){
+        legal_teams_by_id.Insert(team1->value,team1);
+    }
+    return StatusType::SUCCESS;
 }
 
 output_t<int> world_cup_t::get_top_scorer(int teamId)
@@ -347,13 +422,30 @@ StatusType world_cup_t::get_all_players(int teamId, int *const output)
 
 output_t<int> world_cup_t::get_closest_player(int playerId, int teamId)
 {
-	// TODO: Your code goes here
-	return 1006;
+	if(playerId <= 0 || teamId <= 0) {
+        return StatusType::INVALID_INPUT;
+    }
+    if(teams_by_id.Find(teamId) == nullptr) {
+        return StatusType::FAILURE;
+    }
+    Team *my_team = teams_by_id.Find(teamId)->value;
+    if(my_team->team_players_by_id.Find(playerId) == nullptr) {
+        return StatusType::FAILURE;
+    }
+    if(all_players_by_id.size == 1) {
+        return StatusType::FAILURE;
+    }
+    Player *my_player = my_team->team_players_by_id.Find(playerId)->value;
+    int closest_player_id = my_player->Get_Closest_Player
+            (my_player->next_player_in_score,my_player->prev_player_in_score);
+    return closest_player_id;
 }
 
 output_t<int> world_cup_t::knockout_winner(int minTeamId, int maxTeamId)
 {
-	// TODO: Your code goes here
+	if( minTeamId < 0 || maxTeamId < 0 ||  maxTeamId < minTeamId){
+        return StatusType::INVALID_INPUT;
+    }
 	return 2;
 }
 

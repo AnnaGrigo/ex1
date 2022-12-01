@@ -188,7 +188,7 @@ StatusType WorldCup::UpdatePlayer(int playerID, int gamesPlayed, int ScoredGoals
         return status;
     }
     status = AddPlayer(playerID, team_id, updated_games
-              , updated_goals , updated_cards, is_goalkeeper);
+            , updated_goals , updated_cards, is_goalkeeper);
     return status;
 }
 

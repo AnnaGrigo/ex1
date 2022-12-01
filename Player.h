@@ -21,8 +21,8 @@ public:
     Player() = default;
     Player(int player_id, int team_id, int games_played, int goals, int cards, bool is_goalkeeper);
     ~Player() = default;
+    int Get_Closest_Player(Player* player1, Player* player2) const;
 };
-
 
 
 

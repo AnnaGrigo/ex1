@@ -65,6 +65,18 @@ public:
 	output_t<int> knockout_winner(int minTeamId, int maxTeamId);
 	
 	// } </DO-NOT-MODIFY>
+
+    void change_players_games(AvlNode<int, Player*> *root,int team_games)
+    {
+        if (!root)
+        {
+            return;
+        }
+        change_players_games(root->left_son,team_games);
+        root->value->games_team_played = team_games - root->value->games_team_played;
+        change_players_games(root->right_son,team_games);
+    }
+
 };
 
 #endif // WORLDCUP23A1_H_

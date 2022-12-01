@@ -44,6 +44,7 @@ public:
 public:
     AvlTree();
     ~AvlTree();
+    AvlTree(AvlTree<Key, Value> &other);
     void DeleteTree(AvlNode<Key, Value> *node);
     int BF(AvlNode<Key, Value> *node) const;
     AvlNode<Key, Value>* RR(AvlNode<Key, Value> *node);
@@ -55,12 +56,16 @@ public:
     StatusType InsertNode(AvlNode<Key, Value> *root, AvlNode<Key, Value> *parent, AvlNode<Key, Value> *toInsert);
     StatusType deleteNode(AvlNode<Key, Value>* node,AvlNode<Key, Value>* nodeParent, Key id);
     StatusType Delete(Key key);
-    AvlNode<Key, Value> *Find(Key key) const;
-    void Merge(AvlTree<Key, Value> &second_tree);
+    AvlNode<Key, Value> *Find(Key key);
+    StatusType Merge(AvlTree<Key, Value> &second_tree);
     Pair<Key, Value>* InOrder(AvlNode<Key, Value>* root,Pair<Key, Value> arr[]);
     void ArrayToAvlTree(Pair<Key, Value> *arr, int arr_len);
     AvlNode<Key, Value> *ArrayToAvlTreeFunc(Pair<Key, Value> arr[], int begin, int end);
+    AvlNode<Key, Value> *Next_InOrder(AvlNode<Key, Value> *node);
+    AvlNode<Key, Value> *Prev_InOrder(AvlNode<Key, Value> *node);
 };
+
+
 
 // Constructor
 template<class Key, class Value>
@@ -371,7 +376,7 @@ StatusType AvlTree<Key, Value>::deleteNode(AvlNode<Key, Value>* node ,AvlNode<Ke
 
 
 template<class Key, class Value>
-AvlNode<Key, Value> *AvlTree<Key, Value>::Find(Key key) const {
+AvlNode<Key, Value> *AvlTree<Key, Value>::Find(Key key){
     return findNode(root,key);
 }
 
@@ -389,18 +394,64 @@ AvlNode<Key, Value> *findNode(AvlNode<Key, Value> * rootNode,int key){
     }
 }
 
+// A uniting function to find the previous node inorder
+template<class Key, class Value>
+AvlNode<Key, Value> *AvlTree<Key, Value>::Prev_InOrder(AvlNode<Key, Value> *node) {
+    if(!node){
+        return nullptr;
+    }
+    if(node->left_son){
+        return findMaxNode(node->left_son);
+    }
+    else{
+        AvlNode<Key,Value>* parent = node->parent;
+        while(parent && node == parent->left_son){
+            node = parent;
+            parent = parent->parent;
+        }
+        return parent;
+    }
+}
+
+// A uniting function to find the next node inorder
+template<class Key, class Value>
+AvlNode<Key, Value> *AvlTree<Key, Value>::Next_InOrder(AvlNode<Key, Value> *node) {
+    if(!node){
+        return nullptr;
+    }
+    if(node->right_son){
+        return findMinNode(node->right_son);
+    }
+    AvlNode<Key, Value> *parent = node->parent;
+    while (parent != nullptr && node == parent->right_son){
+        node = parent;
+        parent = parent->parent;
+    }
+    return parent;
+}
+
 
 template<class Key, class Value>
-void AvlTree<Key, Value>::Merge(AvlTree<Key, Value> &second_tree) {
+StatusType AvlTree<Key, Value>::Merge(AvlTree<Key, Value> &second_tree) {
     if (!(this->root) && !(second_tree.root))
     {
-        return;
+        return StatusType::SUCCESS;
     }
     int first_tree_size = this->size;
     int second_tree_size = second_tree.size;
-    auto *array1 = new Pair<Key, Value>[first_tree_size];
+    try{
+        auto *array1 = new Pair<Key, Value>[first_tree_size];
+    }
+    catch (std::bad_alloc&){
+        return StatusType::ALLOCATION_ERROR;
+    }
     InOrder(this->root, array1);
-    auto *array2 = new Pair<Key, Value>[second_tree_size];
+    try {
+        auto *array2 = new Pair<Key, Value>[second_tree_size];
+    }
+    catch (std::bad_alloc&){
+        return StatusType::ALLOCATION_ERROR;
+    }
     InOrder(second_tree.root, array2);
     Pair<Key, Value> *mergedArray = MergeTwoSortedArrays(array1, array2, first_tree_size, second_tree_size);
     if ((this->root))
@@ -413,6 +464,7 @@ void AvlTree<Key, Value>::Merge(AvlTree<Key, Value> &second_tree) {
     delete[] array1;
     delete[] array2;
     delete[] mergedArray;
+    return StatusType::SUCCESS;
 }
 
 // A utility function that merges 2 sorted arrays into 1 sorted array
@@ -502,6 +554,12 @@ Pair<Key, Value>* AvlTree<Key, Value>::InOrder(AvlNode<Key, Value> *tree_root, P
     return InOrderFunc(tree_root, arr, i);
 }
 
+template<class Key, class Value>
+AvlTree<Key, Value>::AvlTree(AvlTree<Key, Value> &other) {
+    this->root = other->root;
+    this->size = other.size;
+}
+
 
 // A utility function for InOrder
 template <class Key, class Value>
@@ -517,12 +575,12 @@ Pair<Key, Value>* InOrderFunc(AvlNode<Key, Value> *root, Pair<Key, Value> arr[],
     index++;
     InOrderFunc(root->right_son, arr, index);
 }
-//doesnt work >:(
+
 template <class Key, class Value>
-Pair<Key,Value>* limitedInorder(AvlNode<Key, Value> *root,Pair<Key, Value> arr[],Key maxKey,Key minKey) {
+void limitedInorder(AvlNode<Key, Value> *root,Pair<Key, Value> arr[],Key maxKey,Key minKey) {
     if (!root)
     {
-        return arr;
+        return;
     }
     if(root->key <= maxKey && root->key >= minKey){
         return limitedInorderHelper(root,arr,maxKey,minKey,0);
@@ -535,19 +593,15 @@ Pair<Key,Value>* limitedInorder(AvlNode<Key, Value> *root,Pair<Key, Value> arr[]
     }
 }
 
-template <class Key, class Value>
-Pair<Key,Value>* limitedInorderIndexFinder(AvlNode<Key, Value> *root,Pair<Key, Value> arr[],Key maxKey,Key minKey ,int index){
-
-}
 
 template <class Key, class Value>
-Pair<Key,Value>* limitedInorderHelper(AvlNode<Key, Value> *root,Pair<Key, Value> arr[],Key maxKey,Key minKey ,int index){
+void limitedInorderHelper(AvlNode<Key, Value> *root,Pair<Key, Value> arr[],Key maxKey,Key minKey ,int index){
     if (!root)
     {
-        return arr;
+        return;
     }
     if(root->key < minKey || root->key > maxKey){
-        return arr;
+        return;
     }
     limitedInorderHelper(root->left_son, arr,maxKey,minKey ,index);
     arr[index].key = root->key;
