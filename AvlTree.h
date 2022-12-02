@@ -389,7 +389,7 @@ AvlNode<Key, Value> *findNode(AvlNode<Key, Value> * rootNode,Key key){
         return rootNode;
     } else if (rootNode->key > key)
         findNode(rootNode->left_son,key);
-    else if(rootNode->key < key){
+    else{
         findNode(rootNode->right_son,key);
     }
 }

@@ -13,10 +13,8 @@ world_cup_t::world_cup_t()
     all_players_by_score = AvlTree<Score, Player*>();
 }
 
-world_cup_t::~world_cup_t()
-{
-	// TODO: Your code goes here
-}
+world_cup_t::~world_cup_t() = default;
+
 
 
 StatusType world_cup_t::add_team(int teamId, int points)
@@ -70,7 +68,7 @@ StatusType world_cup_t::add_player(int playerId, int teamId, int gamesPlayed,
     Player* new_player;
     try{
         new_player = new Player(playerId, teamId,
-                                        gamesPlayed, goals, cards, goalKeeper);
+                                gamesPlayed, goals, cards, goalKeeper);
     }
     catch (std::bad_alloc&){
         return StatusType::ALLOCATION_ERROR;
@@ -124,14 +122,27 @@ StatusType world_cup_t::add_player(int playerId, int teamId, int gamesPlayed,
             return status;
         }
     }
-    AvlNode<Score, Player*> *x = all_players_by_score.Find(new_player_score_all); //idk why its happening
     //add to new player the closest players InOrder
-    new_player->next_player_in_score =
-            all_players_by_score.Next_InOrder(all_players_by_score.Find(new_player_score_all))->value;
-    new_player->prev_player_in_score =
-            all_players_by_score.Prev_InOrder(all_players_by_score.Find(new_player_score_all))->value;
-    new_player->next_player_in_score->prev_player_in_score = new_player;
-    new_player->prev_player_in_score->next_player_in_score = new_player;
+    AvlNode<Score, Player*> *next_player = all_players_by_score.Next_InOrder(all_players_by_score.Find(new_player_score_all));
+    if(next_player != nullptr) {
+        new_player->next_player_in_score = next_player->value;
+    }
+    else{
+        new_player->next_player_in_score = nullptr;
+    }
+    AvlNode<Score, Player*> *prev_player = all_players_by_score.Prev_InOrder(all_players_by_score.Find(new_player_score_all));
+    if(prev_player != nullptr) {
+        new_player->prev_player_in_score = prev_player->value;
+    }
+    else{
+        new_player->prev_player_in_score = nullptr;
+    }
+    if(new_player->next_player_in_score != nullptr) {
+        new_player->next_player_in_score->prev_player_in_score = new_player;
+    }
+    if(new_player->prev_player_in_score != nullptr) {
+        new_player->prev_player_in_score->next_player_in_score = new_player;
+    }
     return StatusType::SUCCESS;
 }
 
@@ -211,14 +222,18 @@ StatusType world_cup_t::remove_player(int playerId)
         }
     }
     //update the closest players InOrder
-    next_player_in_score->prev_player_in_score = prev_player_in_score;
-    prev_player_in_score->next_player_in_score = next_player_in_score;
+    if(next_player_in_score != nullptr) {
+        next_player_in_score->prev_player_in_score = prev_player_in_score;
+    }
+    if(prev_player_in_score != nullptr) {
+        prev_player_in_score->next_player_in_score = next_player_in_score;
+    }
     delete player_to_remove;
     return StatusType::SUCCESS;
 }
 
 StatusType world_cup_t::update_player_stats(int playerId, int gamesPlayed,
-                                        int scoredGoals, int cardsReceived)
+                                            int scoredGoals, int cardsReceived)
 {
     if(playerId<=0 || gamesPlayed<0 || scoredGoals<0 || cardsReceived<0) {
         return StatusType::INVALID_INPUT;
@@ -248,7 +263,7 @@ StatusType world_cup_t::play_match(int teamId1, int teamId2)
     AvlNode<int ,Team*>* team1 = teams_by_id.Find(teamId1);
     AvlNode<int ,Team*>* team2 = teams_by_id.Find(teamId2);
 
-	if(team1 == nullptr || team2 == nullptr || !(Is_Team_Legal(team1->value)) || !(Is_Team_Legal(team2->value))){
+    if(team1 == nullptr || team2 == nullptr || !(Is_Team_Legal(team1->value)) || !(Is_Team_Legal(team2->value))){
         return StatusType::FAILURE;
     }
     int scoreTeam1 = team1->value->value + team1->value->points;
@@ -285,7 +300,7 @@ output_t<int> world_cup_t::get_num_played_games(int playerId)
 
 output_t<int> world_cup_t::get_team_points(int teamId)
 {
-	if(teamId <= 0){
+    if(teamId <= 0){
         return StatusType::INVALID_INPUT;
     }
     AvlNode<int,Team*>* team = teams_by_id.Find(teamId);
@@ -297,7 +312,7 @@ output_t<int> world_cup_t::get_team_points(int teamId)
 
 StatusType world_cup_t::unite_teams(int teamId1, int teamId2, int newTeamId)
 {
-	if(teamId1 <= 0 || teamId2 <= 0 || teamId1 == teamId2 || newTeamId <= 0)
+    if(teamId1 <= 0 || teamId2 <= 0 || teamId1 == teamId2 || newTeamId <= 0)
     {
         return StatusType::INVALID_INPUT;
     }
@@ -345,12 +360,13 @@ StatusType world_cup_t::unite_teams(int teamId1, int teamId2, int newTeamId)
     if(Is_Team_Legal(team1)){
         legal_teams_by_id.Insert(team1->value,team1);
     }
+    delete team2;
     return StatusType::SUCCESS;
 }
 
 output_t<int> world_cup_t::get_top_scorer(int teamId)
 {
-	if(teamId == 0){
+    if(teamId == 0){
         return StatusType::INVALID_INPUT;
     }
     if(teamId < 0){
@@ -391,7 +407,7 @@ output_t<int> world_cup_t::get_all_players_count(int teamId)
 
 StatusType world_cup_t::get_all_players(int teamId, int *const output)
 {
-	if(teamId == 0 || output == nullptr){
+    if(teamId == 0 || output == nullptr){
         return StatusType::INVALID_INPUT;
     }
     int arraySize = 0;
@@ -418,14 +434,14 @@ StatusType world_cup_t::get_all_players(int teamId, int *const output)
         team->value->team_players_by_score.InOrder(all_players_by_score.root , playerArray);
     }
     for (int i = 0; i < arraySize; ++i) {
-        output[i] = playerArray[i].value->goals;
+        output[i] = playerArray[i].value->player_id;
     }
     return StatusType::SUCCESS;
 }
 
 output_t<int> world_cup_t::get_closest_player(int playerId, int teamId)
 {
-	if(playerId <= 0 || teamId <= 0) {
+    if(playerId <= 0 || teamId <= 0) {
         return StatusType::INVALID_INPUT;
     }
     if(teams_by_id.Find(teamId) == nullptr) {
@@ -444,9 +460,46 @@ output_t<int> world_cup_t::get_closest_player(int playerId, int teamId)
     return closest_player_id;
 }
 
+output_t<int> knockout_winner_helper(Pair<int,int>* teamsPlaying, Pair<int,int>* teamsThatWon, int numTeamsPlaying){
+    if (numTeamsPlaying == 1){
+        int winner = teamsPlaying[0].key;
+        delete teamsPlaying;
+        delete teamsThatWon;
+        return winner;
+    }
+    for (int i = 0; i < numTeamsPlaying; i+=2) {
+        if(teamsPlaying[i].value > teamsPlaying[i+1].value){
+            teamsThatWon[i].key = teamsPlaying[i].key;
+        }
+        else if(teamsPlaying[i].value < teamsPlaying[i+1].value){
+            teamsThatWon[i].key = teamsPlaying[i+1].key;
+        }
+        else if(teamsPlaying[i].key > teamsPlaying[i+1].key){
+            teamsThatWon[i].key = teamsPlaying[i].key;
+        }
+        else{
+            teamsThatWon[i].key = teamsPlaying[i+1].key;
+        }
+        teamsThatWon[i].value = teamsPlaying[i].value + teamsPlaying[i+1].value + 3;
+    }
+    if(numTeamsPlaying%2){
+        teamsThatWon[numTeamsPlaying/2 +1].key = teamsPlaying[numTeamsPlaying].key;
+        teamsThatWon[numTeamsPlaying/2 +1].value = teamsPlaying[numTeamsPlaying].value;
+    }
+    delete teamsPlaying;
+    Pair<int,int>* nextRoundWinners;
+    try {
+        nextRoundWinners = new Pair<int,int>[numTeamsPlaying/2 + numTeamsPlaying%2];
+    }
+    catch (std::bad_alloc&){
+        return StatusType::ALLOCATION_ERROR;
+    }
+    return knockout_winner_helper(teamsThatWon,nextRoundWinners,numTeamsPlaying/2 + numTeamsPlaying%2);
+}
+
 output_t<int> world_cup_t::knockout_winner(int minTeamId, int maxTeamId)
 {
-	if( minTeamId < 0 || maxTeamId < 0 ||  maxTeamId < minTeamId){
+    if( minTeamId < 0 || maxTeamId < 0 || maxTeamId < minTeamId){
         return StatusType::INVALID_INPUT;
     }
     Pair<int,Team*>* legalTeams;
@@ -466,6 +519,7 @@ output_t<int> world_cup_t::knockout_winner(int minTeamId, int maxTeamId)
         keyAndValueOfTeams = new Pair<int,int>[numOfLegalTeams];
     }
     catch (std::bad_alloc&){
+        delete legalTeams;
         return StatusType::ALLOCATION_ERROR;
     }
     for (int i = 0; i < numOfLegalTeams; ++i) {
@@ -473,9 +527,14 @@ output_t<int> world_cup_t::knockout_winner(int minTeamId, int maxTeamId)
         keyAndValueOfTeams[i].value = legalTeams[i].value->value + legalTeams[i].value->points;
     }
     delete legalTeams;
-
+    Pair<int,int>* winnerArray;
+    try {
+        winnerArray = new Pair<int,int>[numOfLegalTeams/2 + numOfLegalTeams%2];
+    }
+    catch (std::bad_alloc&){
+        delete keyAndValueOfTeams;
+        return StatusType::ALLOCATION_ERROR;
+    }
+    return knockout_winner_helper(keyAndValueOfTeams,winnerArray,numOfLegalTeams);
 }
 
-void knockout_winner_helper(Pair<int,int>* teamArray,int teamsPlaying){
-
-}
