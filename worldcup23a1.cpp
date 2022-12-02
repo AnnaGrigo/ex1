@@ -13,10 +13,8 @@ world_cup_t::world_cup_t()
     all_players_by_score = AvlTree<Score, Player*>();
 }
 
-world_cup_t::~world_cup_t()
-{
-	// TODO: Your code goes here
-}
+world_cup_t::~world_cup_t() = default;
+
 
 
 StatusType world_cup_t::add_team(int teamId, int points)
@@ -418,7 +416,7 @@ StatusType world_cup_t::get_all_players(int teamId, int *const output)
         team->value->team_players_by_score.InOrder(all_players_by_score.root , playerArray);
     }
     for (int i = 0; i < arraySize; ++i) {
-        output[i] = playerArray[i].value->goals;
+        output[i] = playerArray[i].value->player_id;
     }
     return StatusType::SUCCESS;
 }
@@ -444,9 +442,46 @@ output_t<int> world_cup_t::get_closest_player(int playerId, int teamId)
     return closest_player_id;
 }
 
+output_t<int> knockout_winner_helper(Pair<int,int>* teamsPlaying, Pair<int,int>* teamsThatWon, int numTeamsPlaying){
+    if (numTeamsPlaying == 1){
+        int winner = teamsPlaying[0].key;
+        delete teamsPlaying;
+        delete teamsThatWon;
+        return winner;
+    }
+    for (int i = 0; i < numTeamsPlaying; i+=2) {
+        if(teamsPlaying[i].value > teamsPlaying[i+1].value){
+            teamsThatWon[i].key = teamsPlaying[i].key;
+        }
+        else if(teamsPlaying[i].value < teamsPlaying[i+1].value){
+            teamsThatWon[i].key = teamsPlaying[i+1].key;
+        }
+        else if(teamsPlaying[i].key > teamsPlaying[i+1].key){
+            teamsThatWon[i].key = teamsPlaying[i].key;
+        }
+        else{
+            teamsThatWon[i].key = teamsPlaying[i+1].key;
+        }
+        teamsThatWon[i].value = teamsPlaying[i].value + teamsPlaying[i+1].value + 3;
+    }
+    if(numTeamsPlaying%2){
+        teamsThatWon[numTeamsPlaying/2 +1].key = teamsPlaying[numTeamsPlaying].key;
+        teamsThatWon[numTeamsPlaying/2 +1].value = teamsPlaying[numTeamsPlaying].value;
+    }
+    delete teamsPlaying;
+    Pair<int,int>* nextRoundWinners;
+    try {
+        nextRoundWinners = new Pair<int,int>[numTeamsPlaying/2 + numTeamsPlaying%2];
+    }
+    catch (std::bad_alloc&){
+        return StatusType::ALLOCATION_ERROR;
+    }
+    return knockout_winner_helper(teamsThatWon,nextRoundWinners,numTeamsPlaying/2 + numTeamsPlaying%2);
+}
+
 output_t<int> world_cup_t::knockout_winner(int minTeamId, int maxTeamId)
 {
-	if( minTeamId < 0 || maxTeamId < 0 ||  maxTeamId < minTeamId){
+	if( minTeamId < 0 || maxTeamId < 0 || maxTeamId < minTeamId){
         return StatusType::INVALID_INPUT;
     }
     Pair<int,Team*>* legalTeams;
@@ -466,6 +501,7 @@ output_t<int> world_cup_t::knockout_winner(int minTeamId, int maxTeamId)
         keyAndValueOfTeams = new Pair<int,int>[numOfLegalTeams];
     }
     catch (std::bad_alloc&){
+        delete legalTeams;
         return StatusType::ALLOCATION_ERROR;
     }
     for (int i = 0; i < numOfLegalTeams; ++i) {
@@ -473,9 +509,14 @@ output_t<int> world_cup_t::knockout_winner(int minTeamId, int maxTeamId)
         keyAndValueOfTeams[i].value = legalTeams[i].value->value + legalTeams[i].value->points;
     }
     delete legalTeams;
-
+    Pair<int,int>* winnerArray;
+    try {
+        winnerArray = new Pair<int,int>[numOfLegalTeams/2 + numOfLegalTeams%2];
+    }
+    catch (std::bad_alloc&){
+        delete keyAndValueOfTeams;
+        return StatusType::ALLOCATION_ERROR;
+    }
+    return knockout_winner_helper(keyAndValueOfTeams,winnerArray,numOfLegalTeams);
 }
 
-void knockout_winner_helper(Pair<int,int>* teamArray,int teamsPlaying){
-
-}
