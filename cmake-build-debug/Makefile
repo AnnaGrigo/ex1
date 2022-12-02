@@ -176,29 +176,29 @@ Team.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/Team.cpp.s
 .PHONY : Team.cpp.s
 
-main23a1.obj: main23a1.cpp.obj
-.PHONY : main23a1.obj
+main.obj: main.cpp.obj
+.PHONY : main.obj
 
 # target to build an object file
-main23a1.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/main23a1.cpp.obj
-.PHONY : main23a1.cpp.obj
+main.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/main.cpp.obj
+.PHONY : main.cpp.obj
 
-main23a1.i: main23a1.cpp.i
-.PHONY : main23a1.i
+main.i: main.cpp.i
+.PHONY : main.i
 
 # target to preprocess a source file
-main23a1.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/main23a1.cpp.i
-.PHONY : main23a1.cpp.i
+main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/main.cpp.i
+.PHONY : main.cpp.i
 
-main23a1.s: main23a1.cpp.s
-.PHONY : main23a1.s
+main.s: main.cpp.s
+.PHONY : main.s
 
 # target to generate assembly for a file
-main23a1.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/main23a1.cpp.s
-.PHONY : main23a1.cpp.s
+main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/main.cpp.s
+.PHONY : main.cpp.s
 
 worldcup23a1.obj: worldcup23a1.cpp.obj
 .PHONY : worldcup23a1.obj
@@ -239,9 +239,9 @@ help:
 	@echo ... Team.obj
 	@echo ... Team.i
 	@echo ... Team.s
-	@echo ... main23a1.obj
-	@echo ... main23a1.i
-	@echo ... main23a1.s
+	@echo ... main.obj
+	@echo ... main.i
+	@echo ... main.s
 	@echo ... worldcup23a1.obj
 	@echo ... worldcup23a1.i
 	@echo ... worldcup23a1.s
