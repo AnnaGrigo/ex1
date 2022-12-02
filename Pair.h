@@ -8,13 +8,7 @@ class Pair
 public:
     Key key;
     Value value;
-
-    Pair() = default;
-    Pair(Key new_key,Value new_value)
-            : key(new_key)
-            , value(new_value)
-    {
-    }
+    Pair() =default;
     Pair(const Pair<Key, Value> &other)
     {
         this->key = other.key;

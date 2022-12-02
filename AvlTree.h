@@ -58,7 +58,7 @@ public:
     StatusType Delete(Key key);
     AvlNode<Key, Value> *Find(Key key);
     StatusType Merge(AvlTree<Key, Value> &second_tree);
-    Pair<Key, Value>* InOrder(AvlNode<Key, Value>* root,Pair<Key, Value> arr[]);
+    void InOrder(AvlNode<Key, Value>* root,Pair<Key, Value> arr[]);
     void ArrayToAvlTree(Pair<Key, Value> *arr, int arr_len);
     AvlNode<Key, Value> *ArrayToAvlTreeFunc(Pair<Key, Value> arr[], int begin, int end);
     AvlNode<Key, Value> *Next_InOrder(AvlNode<Key, Value> *node);
@@ -381,7 +381,7 @@ AvlNode<Key, Value> *AvlTree<Key, Value>::Find(Key key){
 }
 
 template<class Key, class Value>
-AvlNode<Key, Value> *findNode(AvlNode<Key, Value> * rootNode,int key){
+AvlNode<Key, Value> *findNode(AvlNode<Key, Value> * rootNode,Key key){
     if(!rootNode){
         return nullptr;
     }
@@ -439,15 +439,16 @@ StatusType AvlTree<Key, Value>::Merge(AvlTree<Key, Value> &second_tree) {
     }
     int first_tree_size = this->size;
     int second_tree_size = second_tree.size;
+    Pair<Key, Value>* array1, *array2;
     try{
-        auto *array1 = new Pair<Key, Value>[first_tree_size];
+        array1 = new Pair<Key, Value>[first_tree_size];
     }
     catch (std::bad_alloc&){
         return StatusType::ALLOCATION_ERROR;
     }
     InOrder(this->root, array1);
     try {
-        auto *array2 = new Pair<Key, Value>[second_tree_size];
+        array2 = new Pair<Key, Value>[second_tree_size];
     }
     catch (std::bad_alloc&){
         return StatusType::ALLOCATION_ERROR;
@@ -548,26 +549,26 @@ void ArrayToAvlTreeParentFunc(AvlNode<Key, Value> *root)
 
 // A utility function that recieves an AVL tree and an empty array and sorts inorder trans into the array
 template <class Key, class Value>
-Pair<Key, Value>* AvlTree<Key, Value>::InOrder(AvlNode<Key, Value> *tree_root, Pair<Key, Value> arr[])
+void AvlTree<Key, Value>::InOrder(AvlNode<Key, Value> *tree_root, Pair<Key, Value> arr[])
 {
     int i = 0;
-    return InOrderFunc(tree_root, arr, i);
+    InOrderFunc(tree_root, arr, i);
 }
 
 template<class Key, class Value>
 AvlTree<Key, Value>::AvlTree(AvlTree<Key, Value> &other) {
-    this->root = other->root;
-    this->size = other.size;
+    root = other.root;
+    size = other.size;
 }
 
 
 // A utility function for InOrder
 template <class Key, class Value>
-Pair<Key, Value>* InOrderFunc(AvlNode<Key, Value> *root, Pair<Key, Value> arr[], int &index)
+void InOrderFunc(AvlNode<Key, Value> *root, Pair<Key, Value> arr[], int &index)
 {
     if (!root)
     {
-        return arr;
+        return;
     }
     InOrderFunc(root->left_son, arr, index);
     arr[index].key = root->key;
@@ -577,68 +578,71 @@ Pair<Key, Value>* InOrderFunc(AvlNode<Key, Value> *root, Pair<Key, Value> arr[],
 }
 
 template <class Key, class Value>
-void limitedInorder(AvlNode<Key, Value> *root,Pair<Key, Value> arr[],Key maxKey,Key minKey) {
+void limitedInorder(AvlNode<Key, Value> *root,Pair<Key, Value> arr[],Key minKey,Key maxKey) {
     if (!root)
     {
         return;
     }
+    int i = 0;
     if(root->key <= maxKey && root->key >= minKey){
-        return limitedInorderHelper(root,arr,maxKey,minKey,0);
+        limitedInorderHelper(root,arr,minKey,maxKey,i);
     }
     if(root->key > maxKey){
-        limitedInorder(root->left_son,arr,maxKey,minKey);
+        limitedInorder(root->left_son,arr,minKey,maxKey);
     }
     if(root->key < minKey){
-        limitedInorder(root->right_son,arr,maxKey,minKey);
+        limitedInorder(root->right_son,arr,minKey,maxKey);
     }
 }
 
 
 template <class Key, class Value>
-void limitedInorderHelper(AvlNode<Key, Value> *root,Pair<Key, Value> arr[],Key maxKey,Key minKey ,int index){
+void limitedInorderHelper(AvlNode<Key, Value> *root, Pair<Key, Value> arr[], Key minKey, Key maxKey ,int& index){
     if (!root)
     {
         return;
     }
-    if(root->key < minKey || root->key > maxKey){
+    if((root->key < minKey || root->key > maxKey) && (!root->left_son || findMinNode(root)->key > maxKey || !root->right_son || findMaxNode(root)->key < minKey)){
         return;
     }
-    limitedInorderHelper(root->left_son, arr,maxKey,minKey ,index);
-    arr[index].key = root->key;
-    arr[index].value = root->value;
-    index++;
-    limitedInorderHelper(root->right_son, arr,maxKey,minKey , index);
+    limitedInorderHelper(root->left_son, arr, minKey, maxKey, index);
+    if(root->key <= maxKey && minKey <=root->key){
+        arr[index].key = root->key;
+        arr[index].value = root->value;
+        index++;
+        limitedInorderHelper(root->right_son, arr, minKey, maxKey, index);
+    }
 }
 
 
 
 template<class Key, class Value>
-int is_tree_valid(AvlNode<Key, Value> *root) {
+bool is_tree_valid(AvlNode<Key, Value> *root) {
     if (!root) {
-        return 1;
+        return true;
     }
     if (root->left_son && root->left_son->key >= root->key) {
-        return 0;
+        return false;
     }
     if (root->right_son && root->right_son->key <= root->key) {
-        return 0;
+        return false;
     }
     if ( std::abs(BalanceFactor(root)) > 1) {
-        return 0;
+        return false;
     }
     if(root->parent){
         if(root->parent->left_son != root && root->parent->right_son != root){
-            return 0;
+            return false;
         }
     }
     if(root->left_son){
         if(root->left_son->parent != root){
-            return 0;
+            return false;
         }
     }
     if(root->right_son){
         if(root->right_son->parent != root){
-            return 0;
+            return false;
         }
     }
     return is_tree_valid(root->left_son) && is_tree_valid(root->right_son);

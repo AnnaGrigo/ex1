@@ -28,8 +28,10 @@ StatusType world_cup_t::add_team(int teamId, int points)
     if (teams_by_id.Find(teamId) != nullptr) {
         return StatusType::FAILURE;
     }
-    Team* new_team = new Team(teamId, points);
-    if (!new_team) {
+    Team* new_team;
+    try {
+        new_team = new Team(teamId, points);
+    }catch (std::bad_alloc&){
         return StatusType::ALLOCATION_ERROR;
     }
     return teams_by_id.Insert(teamId, new_team);
@@ -357,7 +359,7 @@ output_t<int> world_cup_t::get_top_scorer(int teamId)
         }
         return top_player->player_id;
     }
-    if(teamId > 0){
+    else{
         AvlNode<int, Team*> * team = teams_by_id.Find(teamId);
         if(team == nullptr){
             return StatusType::FAILURE;
@@ -375,15 +377,15 @@ output_t<int> world_cup_t::get_all_players_count(int teamId)
     if(teamId == 0){
         return StatusType::INVALID_INPUT;
     }
-    if(teams_by_id.Find(teamId) == nullptr) {
-        return StatusType::FAILURE;
+    else if(teamId > 0){
+        if(teams_by_id.Find(teamId) == nullptr) {
+            return StatusType::FAILURE;
+        }
+        return (teams_by_id.Find(teamId))->value->team_players_by_id.size;
     }
-    if(teamId < 0)
+    else
     {
         return all_players_by_id.size;
-    }
-    if(teamId > 0) {
-        return (teams_by_id.Find(teamId))->value->team_players_by_id.size;
     }
 }
 
@@ -402,9 +404,9 @@ StatusType world_cup_t::get_all_players(int teamId, int *const output)
         catch (std::bad_alloc&){
             return StatusType::ALLOCATION_ERROR;
         }
-        playerArray = all_players_by_score.InOrder(all_players_by_score.root , playerArray);
+        all_players_by_score.InOrder(all_players_by_score.root , playerArray);
     }
-    if (teamId > 0){
+    else{
         AvlNode<int, Team*>* team = teams_by_id.Find(teamId);
         arraySize = team->value->team_players_by_id.size;
         try {
@@ -413,11 +415,12 @@ StatusType world_cup_t::get_all_players(int teamId, int *const output)
         catch (std::bad_alloc&){
             return StatusType::ALLOCATION_ERROR;
         }
-        playerArray = team->value->team_players_by_score.InOrder(all_players_by_score.root , playerArray);
+        team->value->team_players_by_score.InOrder(all_players_by_score.root , playerArray);
     }
     for (int i = 0; i < arraySize; ++i) {
         output[i] = playerArray[i].value->goals;
     }
+    return StatusType::SUCCESS;
 }
 
 output_t<int> world_cup_t::get_closest_player(int playerId, int teamId)
@@ -446,6 +449,33 @@ output_t<int> world_cup_t::knockout_winner(int minTeamId, int maxTeamId)
 	if( minTeamId < 0 || maxTeamId < 0 ||  maxTeamId < minTeamId){
         return StatusType::INVALID_INPUT;
     }
-	return 2;
+    Pair<int,Team*>* legalTeams;
+    try {
+        legalTeams = new Pair<int,Team*>[std::min(legal_teams_by_id.size,maxTeamId-minTeamId+1)];
+    }
+    catch (std::bad_alloc&){
+        return StatusType::ALLOCATION_ERROR;
+    }
+    limitedInorder(legal_teams_by_id.root,legalTeams,minTeamId,maxTeamId);
+    int numOfLegalTeams = 0;
+    while(legalTeams[numOfLegalTeams].key){
+        numOfLegalTeams++;
+    }
+    Pair<int,int>* keyAndValueOfTeams;
+    try {
+        keyAndValueOfTeams = new Pair<int,int>[numOfLegalTeams];
+    }
+    catch (std::bad_alloc&){
+        return StatusType::ALLOCATION_ERROR;
+    }
+    for (int i = 0; i < numOfLegalTeams; ++i) {
+        keyAndValueOfTeams[i].key = legalTeams[i].key;
+        keyAndValueOfTeams[i].value = legalTeams[i].value->value + legalTeams[i].value->points;
+    }
+    delete legalTeams;
+
 }
 
+void knockout_winner_helper(Pair<int,int>* teamArray,int teamsPlaying){
+
+}
