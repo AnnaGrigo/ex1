@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ex1.dir/Player.cpp.obj"
   "CMakeFiles/ex1.dir/Team.cpp.obj"
-  "CMakeFiles/ex1.dir/main.cpp.obj"
+  "CMakeFiles/ex1.dir/main23a1.cpp.obj"
   "CMakeFiles/ex1.dir/worldcup23a1.cpp.obj"
   "ex1.exe"
   "ex1.exe.manifest"
