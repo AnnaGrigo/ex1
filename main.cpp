@@ -30,11 +30,7 @@ int main() {
         std::cout << arr[i].key <<' ';
     }*/
 
-    int* array = new int[10];
-    array[0]= 1;
-    array[1] = 1;
-    //array[2] = 2;
-    int i = 5/2;
+    int i = rangeCount(avl1.root,3,8);
 
     std::cout<< i <<' ';
 

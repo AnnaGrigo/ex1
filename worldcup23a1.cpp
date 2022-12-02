@@ -358,7 +358,7 @@ StatusType world_cup_t::unite_teams(int teamId1, int teamId2, int newTeamId)
     legal_teams_by_id.Delete(teamId1);
     legal_teams_by_id.Delete(teamId2);
     if(Is_Team_Legal(team1)){
-        legal_teams_by_id.Insert(team1->value,team1);
+        legal_teams_by_id.Insert(team1->team_id,team1);
     }
     delete team2;
     return StatusType::SUCCESS;
@@ -431,7 +431,7 @@ StatusType world_cup_t::get_all_players(int teamId, int *const output)
         catch (std::bad_alloc&){
             return StatusType::ALLOCATION_ERROR;
         }
-        team->value->team_players_by_score.InOrder(all_players_by_score.root , playerArray);
+        team->value->team_players_by_score.InOrder(team->value->team_players_by_score.root , playerArray);
     }
     for (int i = 0; i < arraySize; ++i) {
         output[i] = playerArray[i].value->player_id;
@@ -510,10 +510,7 @@ output_t<int> world_cup_t::knockout_winner(int minTeamId, int maxTeamId)
         return StatusType::ALLOCATION_ERROR;
     }
     limitedInorder(legal_teams_by_id.root,legalTeams,minTeamId,maxTeamId);
-    int numOfLegalTeams = 0;
-    while(legalTeams[numOfLegalTeams].key){
-        numOfLegalTeams++;
-    }
+    int numOfLegalTeams = rangeCount(legal_teams_by_id.root,minTeamId,maxTeamId);
     Pair<int,int>* keyAndValueOfTeams;
     try {
         keyAndValueOfTeams = new Pair<int,int>[numOfLegalTeams];
@@ -535,6 +532,6 @@ output_t<int> world_cup_t::knockout_winner(int minTeamId, int maxTeamId)
         delete keyAndValueOfTeams;
         return StatusType::ALLOCATION_ERROR;
     }
-    return knockout_winner_helper(keyAndValueOfTeams,winnerArray,numOfLegalTeams);
+    return knockout_winner_helper(keyAndValueOfTeams,winnerArray,numOfLegalTeams/2 + numOfLegalTeams%2);
 }
 

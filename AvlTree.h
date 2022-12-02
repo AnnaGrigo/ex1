@@ -457,7 +457,7 @@ StatusType AvlTree<Key, Value>::Merge(AvlTree<Key, Value> &second_tree) {
     Pair<Key, Value> *mergedArray = MergeTwoSortedArrays(array1, array2, first_tree_size, second_tree_size);
     if ((this->root))
     {
-        //DeleteTree(this->root);
+       // DeleteTree(this->root);
     }
     this->ArrayToAvlTree(mergedArray, first_tree_size + second_tree_size);
     this->size = first_tree_size + second_tree_size;
@@ -587,10 +587,10 @@ void limitedInorder(AvlNode<Key, Value> *root,Pair<Key, Value> arr[],Key minKey,
     if(root->key <= maxKey && root->key >= minKey){
         limitedInorderHelper(root,arr,minKey,maxKey,i);
     }
-    if(root->key > maxKey){
+    else if(root->key > maxKey){
         limitedInorder(root->left_son,arr,minKey,maxKey);
     }
-    if(root->key < minKey){
+    else if(root->key < minKey){
         limitedInorder(root->right_son,arr,minKey,maxKey);
     }
 }
@@ -612,6 +612,41 @@ void limitedInorderHelper(AvlNode<Key, Value> *root, Pair<Key, Value> arr[], Key
         index++;
         limitedInorderHelper(root->right_son, arr, minKey, maxKey, index);
     }
+}
+
+template <class Key, class Value>
+int rangeCount(AvlNode<Key,Value> *root, Key minKey, Key maxKey){
+    if (!root)
+    {
+        return 0;
+    }
+    int i = 0;
+    if(root->key <= maxKey && root->key >= minKey){
+        return rangeCountHelper(root,minKey,maxKey,i);
+    }
+    else if(root->key > maxKey){
+        return rangeCountHelper(root->left_son,minKey,maxKey,i);
+    }
+    else if(root->key < minKey){
+        return rangeCountHelper(root->right_son,minKey,maxKey,i);
+    }
+}
+
+template <class Key, class Value>
+int rangeCountHelper(AvlNode<Key,Value> *root, Key minKey, Key maxKey,int &i){
+    if (!root)
+    {
+        return i;
+    }
+    if((root->key < minKey || root->key > maxKey) && (!root->left_son || findMinNode(root)->key > maxKey || !root->right_son || findMaxNode(root)->key < minKey)){
+        return i;
+    }
+    rangeCountHelper(root->left_son, minKey, maxKey, i);
+    if(root->key <= maxKey && minKey <=root->key){
+        ++i;
+        rangeCountHelper(root->right_son ,minKey, maxKey,i);
+    }
+    return i;
 }
 
 
