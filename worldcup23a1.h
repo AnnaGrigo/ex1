@@ -77,6 +77,18 @@ public:
         change_players_games(root->right_son,team_games);
     }
 
+    template<class Key, class Value>
+    void Delete_All(AvlNode<Key, Value> *root)
+    {
+        if (!root)
+        {
+            return;
+        }
+        Delete_All(root->left_son);
+        Delete_All(root->right_son);
+        delete root->value;
+    }
+
 };
 
 #endif // WORLDCUP23A1_H_

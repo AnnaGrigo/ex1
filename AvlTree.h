@@ -80,9 +80,14 @@ AvlTree<Key, Value>::~AvlTree() {
 }
 
 template<class Key, class Value>
+AvlTree<Key, Value>::AvlTree(AvlTree<Key, Value> &other) {
+    root = other.root;
+    size = other.size;
+}
+
+template<class Key, class Value>
 void AvlTree<Key, Value>::DeleteTree(AvlNode<Key, Value> *node) {
     if (node == nullptr) {
-        size = 0;
         return;
     }
     DeleteTree(node->right_son);
@@ -222,7 +227,12 @@ AvlNode<Key, Value>* AvlTree<Key, Value>::Rotate(AvlNode<Key, Value> *node) {
 
 template<class Key, class Value>
 StatusType AvlTree<Key, Value>::Insert(Key key, Value value) {
-    auto* node =  new AvlNode<Key, Value>(key,value);
+    AvlNode<Key, Value>* node;
+    try {
+        node = new AvlNode<Key, Value>(key, value);
+    } catch (std::bad_alloc& e) {
+        return StatusType::ALLOCATION_ERROR;
+    }
     if(!root){
         root = node;
         size++;
@@ -457,11 +467,12 @@ StatusType AvlTree<Key, Value>::Merge(AvlTree<Key, Value> &second_tree) {
     Pair<Key, Value> *mergedArray = MergeTwoSortedArrays(array1, array2, first_tree_size, second_tree_size);
     if ((this->root))
     {
-       // DeleteTree(this->root);
+       DeleteTree(this->root);
     }
     this->ArrayToAvlTree(mergedArray, first_tree_size + second_tree_size);
     this->size = first_tree_size + second_tree_size;
-    //DeleteTree(second_tree.root);
+    DeleteTree(second_tree.root);
+    second_tree.root = nullptr;
     delete[] array1;
     delete[] array2;
     delete[] mergedArray;
@@ -555,12 +566,6 @@ void AvlTree<Key, Value>::InOrder(AvlNode<Key, Value> *tree_root, Pair<Key, Valu
     InOrderFunc(tree_root, arr, i);
 }
 
-template<class Key, class Value>
-AvlTree<Key, Value>::AvlTree(AvlTree<Key, Value> &other) {
-    root = other.root;
-    size = other.size;
-}
-
 
 // A utility function for InOrder
 template <class Key, class Value>
@@ -648,6 +653,9 @@ int rangeCountHelper(AvlNode<Key,Value> *root, Key minKey, Key maxKey,int &i){
     }
     return i;
 }
+
+
+
 
 
 

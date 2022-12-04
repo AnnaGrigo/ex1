@@ -1,3 +1,3 @@
-C:/Users/annag/CLionProjects/mivne/ex1_2/ex1/cmake-build-debug/CMakeFiles/ex1.dir
-C:/Users/annag/CLionProjects/mivne/ex1_2/ex1/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/annag/CLionProjects/mivne/ex1_2/ex1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/user/CLionProjects/RatuvMivne1/ex1/cmake-build-debug/CMakeFiles/ex1.dir
+C:/Users/user/CLionProjects/RatuvMivne1/ex1/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/user/CLionProjects/RatuvMivne1/ex1/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -13,9 +13,10 @@ world_cup_t::world_cup_t()
     all_players_by_score = AvlTree<Score, Player*>();
 }
 
-world_cup_t::~world_cup_t() = default;
-
-
+world_cup_t::~world_cup_t() {
+    Delete_All(teams_by_id.root);
+    Delete_All(all_players_by_id.root);
+}
 
 StatusType world_cup_t::add_team(int teamId, int points)
 {
@@ -49,7 +50,9 @@ StatusType world_cup_t::remove_team(int teamId)
     if(my_team->team_players_by_id.size > 0) {
         return StatusType::FAILURE;
     }
-    return teams_by_id.Delete(teamId);
+    teams_by_id.Delete(teamId);
+    delete my_team;
+    return StatusType::SUCCESS;
 }
 
 StatusType world_cup_t::add_player(int playerId, int teamId, int gamesPlayed,
@@ -75,6 +78,7 @@ StatusType world_cup_t::add_player(int playerId, int teamId, int gamesPlayed,
     }
 
     Team* my_team = (teams_by_id.Find(teamId))->value;
+    bool was_team_legal = Is_Team_Legal(my_team);
     new_player->my_team = my_team;
     //update team goalkeepers
     if(new_player->is_goalkeeper) {
@@ -115,8 +119,7 @@ StatusType world_cup_t::add_player(int playerId, int teamId, int gamesPlayed,
         return status;
     }
     //check if to insert team to legal teams by id tree
-    if(Is_Team_Legal(my_team))
-    {
+    if(Is_Team_Legal(my_team) && !was_team_legal) {
         status = legal_teams_by_id.Insert(teamId, my_team);
         if(status != StatusType::SUCCESS) {
             return status;
@@ -324,7 +327,7 @@ StatusType world_cup_t::unite_teams(int teamId1, int teamId2, int newTeamId)
         return StatusType::FAILURE;
     }
     //check if NewTeamId exists and its teamID1 or teamID2
-    if(teams_by_id.Find(newTeamId) != nullptr & newTeamId != teamId1 & newTeamId != teamId2) {
+    if((teams_by_id.Find(newTeamId) != nullptr) && (newTeamId != teamId1) && (newTeamId != teamId2)) {
         return StatusType::FAILURE;
     }
     Team* team1 = teams_by_id.Find(teamId1)->value;
@@ -436,6 +439,7 @@ StatusType world_cup_t::get_all_players(int teamId, int *const output)
     for (int i = 0; i < arraySize; ++i) {
         output[i] = playerArray[i].value->player_id;
     }
+    delete[] playerArray;
     return StatusType::SUCCESS;
 }
 
@@ -463,8 +467,8 @@ output_t<int> world_cup_t::get_closest_player(int playerId, int teamId)
 output_t<int> knockout_winner_helper(Pair<int,int>* teamsPlaying, Pair<int,int>* teamsThatWon, int numTeamsPlaying){
     if (numTeamsPlaying == 1){
         int winner = teamsPlaying[0].key;
-        delete teamsPlaying;
-        delete teamsThatWon;
+        delete[] teamsPlaying;
+        delete[] teamsThatWon;
         return winner;
     }
     for (int i = 0; i < numTeamsPlaying; i+=2) {
@@ -486,7 +490,7 @@ output_t<int> knockout_winner_helper(Pair<int,int>* teamsPlaying, Pair<int,int>*
         teamsThatWon[numTeamsPlaying/2 +1].key = teamsPlaying[numTeamsPlaying].key;
         teamsThatWon[numTeamsPlaying/2 +1].value = teamsPlaying[numTeamsPlaying].value;
     }
-    delete teamsPlaying;
+    delete[] teamsPlaying;
     Pair<int,int>* nextRoundWinners;
     try {
         nextRoundWinners = new Pair<int,int>[numTeamsPlaying/2 + numTeamsPlaying%2];
@@ -516,20 +520,20 @@ output_t<int> world_cup_t::knockout_winner(int minTeamId, int maxTeamId)
         keyAndValueOfTeams = new Pair<int,int>[numOfLegalTeams];
     }
     catch (std::bad_alloc&){
-        delete legalTeams;
+        delete[] legalTeams;
         return StatusType::ALLOCATION_ERROR;
     }
     for (int i = 0; i < numOfLegalTeams; ++i) {
         keyAndValueOfTeams[i].key = legalTeams[i].key;
         keyAndValueOfTeams[i].value = legalTeams[i].value->value + legalTeams[i].value->points;
     }
-    delete legalTeams;
+    delete[] legalTeams;
     Pair<int,int>* winnerArray;
     try {
         winnerArray = new Pair<int,int>[numOfLegalTeams/2 + numOfLegalTeams%2];
     }
     catch (std::bad_alloc&){
-        delete keyAndValueOfTeams;
+        delete[] keyAndValueOfTeams;
         return StatusType::ALLOCATION_ERROR;
     }
     return knockout_winner_helper(keyAndValueOfTeams,winnerArray,numOfLegalTeams/2 + numOfLegalTeams%2);
