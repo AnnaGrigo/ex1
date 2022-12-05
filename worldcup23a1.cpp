@@ -519,9 +519,11 @@ output_t<int> knockout_winner_helper(Pair<int,int>* teamsPlaying, Pair<int,int>*
         delete[] teamsThatWon;
         return winner;
     }
-    for (int i = 0; i < numTeamsPlaying; i+=2) {
+    int team1value, team2value,team1key,team2key;
+    for (int i = 0; i < numTeamsPlaying - numTeamsPlaying%2 ; i+=2) {
         if(teamsPlaying[i].value > teamsPlaying[i+1].value){
             teamsThatWon[i/2].key = teamsPlaying[i].key;
+
         }
         else if(teamsPlaying[i].value < teamsPlaying[i+1].value){
             teamsThatWon[i/2].key = teamsPlaying[i+1].key;
@@ -533,7 +535,12 @@ output_t<int> knockout_winner_helper(Pair<int,int>* teamsPlaying, Pair<int,int>*
             teamsThatWon[i/2].key = teamsPlaying[i+1].key;
         }
         teamsThatWon[i/2].value = teamsPlaying[i].value + teamsPlaying[i+1].value + 3;
+        team1key = teamsPlaying[i].key;
+        team2key= teamsPlaying[i+1].key;
+        team1value = teamsPlaying[i].value;
+        team2value = teamsPlaying[i+1].value;
     }
+
     if(numTeamsPlaying%2){
         teamsThatWon[numTeamsPlaying/2].key = teamsPlaying[numTeamsPlaying-1].key;
         teamsThatWon[numTeamsPlaying/2].value = teamsPlaying[numTeamsPlaying-1].value;
