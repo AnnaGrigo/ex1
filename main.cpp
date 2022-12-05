@@ -17,6 +17,8 @@ int main() {
     avl1.Insert(3,3);
     avl1.Insert(7,7);
     avl1.Insert(4,4);
+    assert(is_tree_size_valid(avl1.root) == avl1.size);
+
     avl1.Insert(9,9);
     avl1.Insert(5,5);
     avl1.Insert(20,20);

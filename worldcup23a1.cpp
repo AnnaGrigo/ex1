@@ -2,7 +2,6 @@
 #include "Team.h"
 #include "Player.h"
 #include "AvlTree.h"
-#include <assert.h>
 
 world_cup_t::world_cup_t()
 {
@@ -12,6 +11,18 @@ world_cup_t::world_cup_t()
     teams_by_id = AvlTree<int, Team*>();
     all_players_by_id = AvlTree<int, Player*>();
     all_players_by_score = AvlTree<Score, Player*>();
+}
+
+template<class Key, class Value>
+void Delete_All(AvlNode<Key, Value> *root)
+{
+    if (!root)
+    {
+        return;
+    }
+    Delete_All(root->left_son);
+    Delete_All(root->right_son);
+    delete root->value;
 }
 
 world_cup_t::~world_cup_t() {
@@ -42,8 +53,11 @@ StatusType world_cup_t::remove_team(int teamId)
     if(teamId<=0){
         return StatusType::INVALID_INPUT;
     }
+    if(teams_by_id.Find(teamId) == nullptr){
+        return StatusType::FAILURE;
+    }
     //check if team exists
-    if (teams_by_id.Find(teamId) == nullptr) {
+    if ((teams_by_id.Find(teamId))->key != teamId) {
         return StatusType::FAILURE;
     }
     Team *my_team = teams_by_id.Find(teamId)->value;
@@ -147,10 +161,6 @@ StatusType world_cup_t::add_player(int playerId, int teamId, int gamesPlayed,
     if(new_player->prev_player_in_score != nullptr) {
         new_player->prev_player_in_score->next_player_in_score = new_player;
     }
-    assert(is_tree_valid(all_players_by_id.root) == true);
-    assert(is_tree_valid(all_players_by_score.root) == true);
-    assert(is_tree_size_valid(all_players_by_id.root) == all_players_by_id.size);
-    assert(is_tree_size_valid(all_players_by_score.root) == all_players_by_score.size);
     return StatusType::SUCCESS;
 }
 
@@ -179,39 +189,23 @@ StatusType world_cup_t::remove_player(int playerId)
     if(status != StatusType::SUCCESS) {
         return status;
     }
-    assert(is_tree_valid(all_players_by_id.root) == true);
-    assert(is_tree_valid(all_players_by_score.root) == true);
-    assert(is_tree_size_valid(all_players_by_id.root) == all_players_by_id.size);
-    assert(is_tree_size_valid(all_players_by_score.root) == all_players_by_score.size);
     //remove player from all players by score tree
     Score player_score_all = Score(player_to_remove->goals, player_to_remove->cards, playerId);
     status = all_players_by_score.Delete(player_score_all);
     if(status != StatusType::SUCCESS) {
         return status;
     }
-    assert(is_tree_valid(all_players_by_id.root) == true);
-    assert(is_tree_valid(all_players_by_score.root) == true);
-    assert(is_tree_size_valid(all_players_by_id.root) == all_players_by_id.size);
-    assert(is_tree_size_valid(all_players_by_score.root) == all_players_by_score.size);
     //remove player from team players by id tree
     status = my_team->team_players_by_id.Delete(playerId);
     if(status != StatusType::SUCCESS) {
         return status;
     }
-    assert(is_tree_valid(all_players_by_id.root) == true);
-    assert(is_tree_valid(all_players_by_score.root) == true);
-    assert(is_tree_size_valid(all_players_by_id.root) == all_players_by_id.size);
-    assert(is_tree_size_valid(all_players_by_score.root) == all_players_by_score.size);
     //remove player from team players by score tree
     Score player_score_team = Score(player_to_remove->goals, player_to_remove->cards, playerId);
     status = my_team->team_players_by_score.Delete(player_score_team);
     if(status != StatusType::SUCCESS) {
         return status;
     }
-    assert(is_tree_valid(all_players_by_id.root) == true);
-    assert(is_tree_valid(all_players_by_score.root) == true);
-    assert(is_tree_size_valid(all_players_by_id.root) == all_players_by_id.size);
-    assert(is_tree_size_valid(all_players_by_score.root) == all_players_by_score.size);
     //check if to remove team from legal teams by id tree
     if(!Is_Team_Legal(my_team) && was_team_legal)
     {
@@ -220,10 +214,6 @@ StatusType world_cup_t::remove_player(int playerId)
             return status;
         }
     }
-    assert(is_tree_valid(all_players_by_id.root) == true);
-    assert(is_tree_valid(all_players_by_score.root) == true);
-    assert(is_tree_size_valid(all_players_by_id.root) == all_players_by_id.size);
-    assert(is_tree_size_valid(all_players_by_score.root) == all_players_by_score.size);
     //check if to update top player
     if(player_to_remove == top_player) {
         if(all_players_by_score.size == 0) {
@@ -257,10 +247,6 @@ StatusType world_cup_t::remove_player(int playerId)
         prev_player_in_score->next_player_in_score = next_player_in_score;
     }
     delete player_to_remove;
-    assert(is_tree_valid(all_players_by_id.root) == true);
-    assert(is_tree_valid(all_players_by_score.root) == true);
-    assert(is_tree_size_valid(all_players_by_id.root) == all_players_by_id.size);
-    assert(is_tree_size_valid(all_players_by_score.root) == all_players_by_score.size);
     return StatusType::SUCCESS;
 }
 
@@ -270,10 +256,13 @@ StatusType world_cup_t::update_player_stats(int playerId, int gamesPlayed,
     if(playerId<=0 || gamesPlayed<0 || scoredGoals<0 || cardsReceived<0) {
         return StatusType::INVALID_INPUT;
     }
-    if (all_players_by_id.Find(playerId) == nullptr) {
+    if(all_players_by_id.Find(playerId) == nullptr) {
         return StatusType::FAILURE;
     }
     Player* my_player = (all_players_by_id.Find(playerId)->value);
+    if (my_player->player_id != playerId) {
+        return StatusType::FAILURE;
+    }
     bool is_goalkeeper = my_player->is_goalkeeper;
     int team_id = my_player->team_id;
     int updated_goals = scoredGoals + my_player->goals;
@@ -289,7 +278,7 @@ StatusType world_cup_t::update_player_stats(int playerId, int gamesPlayed,
 
 StatusType world_cup_t::play_match(int teamId1, int teamId2)
 {
-    if(teamId1 <= 0 || teamId2 <= 0){
+    if(teamId1 <= 0 || teamId2 <= 0 || teamId1 == teamId2) {
         return StatusType::INVALID_INPUT;
     }
     AvlNode<int ,Team*>* team1 = teams_by_id.Find(teamId1);
@@ -342,6 +331,29 @@ output_t<int> world_cup_t::get_team_points(int teamId)
     return team->value->points;
 }
 
+
+void change_players_games(AvlNode<int, Player*> *root,int team_games)
+{
+    if (!root)
+    {
+        return;
+    }
+    change_players_games(root->left_son,team_games);
+    root->value->games_team_played = team_games - root->value->games_team_played;
+    change_players_games(root->right_son,team_games);
+}
+
+void update_players_team(AvlNode<int, Player*> * root, Team* team)
+{
+    if (!root)
+    {
+        return;
+    }
+    update_players_team(root->left_son,team);
+    root->value->my_team = team;
+    update_players_team(root->right_son,team);
+}
+
 StatusType world_cup_t::unite_teams(int teamId1, int teamId2, int newTeamId)
 {
     if(teamId1 <= 0 || teamId2 <= 0 || teamId1 == teamId2 || newTeamId <= 0)
@@ -363,6 +375,7 @@ StatusType world_cup_t::unite_teams(int teamId1, int teamId2, int newTeamId)
     Team* team2 = teams_by_id.Find(teamId2)->value;
     change_players_games(team1->team_players_by_id.root,team1->all_team_games_played);
     change_players_games(team2->team_players_by_id.root,team2->all_team_games_played);
+    update_players_team(team2->team_players_by_id.root,team1);
     if(team1->team_players_by_id.Merge(team2->team_players_by_id) == StatusType::ALLOCATION_ERROR){
         team1->all_team_games_played = 0;
         team2->all_team_games_played = 0;
@@ -445,6 +458,9 @@ StatusType world_cup_t::get_all_players(int teamId, int *const output)
     int arraySize = 0;
     Pair<Score, Player*>* playerArray;
     if (teamId < 0){
+        if(all_players_by_id.size == 0){
+            return StatusType::FAILURE;
+        }
         arraySize = all_players_by_score.size;
         try {
             playerArray = new Pair<Score, Player*>[arraySize];
@@ -456,6 +472,9 @@ StatusType world_cup_t::get_all_players(int teamId, int *const output)
     }
     else{
         AvlNode<int, Team*>* team = teams_by_id.Find(teamId);
+        if(team == nullptr || team->value->team_players_by_id.size == 0){
+            return StatusType::FAILURE;
+        }
         arraySize = team->value->team_players_by_id.size;
         try {
             playerArray = new Pair<Score, Player*>[arraySize];
@@ -502,22 +521,22 @@ output_t<int> knockout_winner_helper(Pair<int,int>* teamsPlaying, Pair<int,int>*
     }
     for (int i = 0; i < numTeamsPlaying; i+=2) {
         if(teamsPlaying[i].value > teamsPlaying[i+1].value){
-            teamsThatWon[i].key = teamsPlaying[i].key;
+            teamsThatWon[i/2].key = teamsPlaying[i].key;
         }
         else if(teamsPlaying[i].value < teamsPlaying[i+1].value){
-            teamsThatWon[i].key = teamsPlaying[i+1].key;
+            teamsThatWon[i/2].key = teamsPlaying[i+1].key;
         }
         else if(teamsPlaying[i].key > teamsPlaying[i+1].key){
-            teamsThatWon[i].key = teamsPlaying[i].key;
+            teamsThatWon[i/2].key = teamsPlaying[i].key;
         }
         else{
-            teamsThatWon[i].key = teamsPlaying[i+1].key;
+            teamsThatWon[i/2].key = teamsPlaying[i+1].key;
         }
-        teamsThatWon[i].value = teamsPlaying[i].value + teamsPlaying[i+1].value + 3;
+        teamsThatWon[i/2].value = teamsPlaying[i].value + teamsPlaying[i+1].value + 3;
     }
     if(numTeamsPlaying%2){
-        teamsThatWon[numTeamsPlaying/2 +1].key = teamsPlaying[numTeamsPlaying].key;
-        teamsThatWon[numTeamsPlaying/2 +1].value = teamsPlaying[numTeamsPlaying].value;
+        teamsThatWon[numTeamsPlaying/2].key = teamsPlaying[numTeamsPlaying-1].key;
+        teamsThatWon[numTeamsPlaying/2].value = teamsPlaying[numTeamsPlaying-1].value;
     }
     delete[] teamsPlaying;
     Pair<int,int>* nextRoundWinners;
@@ -535,18 +554,15 @@ output_t<int> world_cup_t::knockout_winner(int minTeamId, int maxTeamId)
     if( minTeamId < 0 || maxTeamId < 0 || maxTeamId < minTeamId){
         return StatusType::INVALID_INPUT;
     }
-    if(legal_teams_by_id.size == 0){
-        return StatusType::FAILURE;
-    }
+    int numOfLegalTeams = rangeCount(legal_teams_by_id.root,minTeamId,maxTeamId);
     Pair<int,Team*>* legalTeams;
     try {
-        legalTeams = new Pair<int,Team*>[std::min(legal_teams_by_id.size,maxTeamId-minTeamId+1)];
+        legalTeams = new Pair<int,Team*>[numOfLegalTeams];
     }
     catch (std::bad_alloc&){
         return StatusType::ALLOCATION_ERROR;
     }
     limitedInorder(legal_teams_by_id.root,legalTeams,minTeamId,maxTeamId);
-    int numOfLegalTeams = rangeCount(legal_teams_by_id.root,minTeamId,maxTeamId);
     Pair<int,int>* keyAndValueOfTeams;
     try {
         keyAndValueOfTeams = new Pair<int,int>[numOfLegalTeams];
@@ -568,6 +584,6 @@ output_t<int> world_cup_t::knockout_winner(int minTeamId, int maxTeamId)
         delete[] keyAndValueOfTeams;
         return StatusType::ALLOCATION_ERROR;
     }
-    return knockout_winner_helper(keyAndValueOfTeams,winnerArray,numOfLegalTeams/2 + numOfLegalTeams%2);
+    return knockout_winner_helper(keyAndValueOfTeams,winnerArray,numOfLegalTeams);
 }
 

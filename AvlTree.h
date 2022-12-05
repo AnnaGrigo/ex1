@@ -272,7 +272,10 @@ AvlTree<Key, Value>::InsertNode(AvlNode<Key, Value> *rootNode, AvlNode<Key, Valu
             rHeight = newParent->right_son->height;
         if(newParent->left_son)
             lHeight = newParent->left_son->height;
-        newParent->height = (1 + std::max(rHeight, lHeight));
+        if(newParent->left_son || newParent->right_son)
+            newParent->height = 1 + std::max(rHeight,lHeight);
+        else
+            newParent->height = 0;
         this->Rotate(newParent);
     }
     return StatusType::SUCCESS;
@@ -378,13 +381,14 @@ StatusType AvlTree<Key, Value>::deleteNode(AvlNode<Key, Value>* node ,AvlNode<Ke
             rHeight = nodeParent->right_son->height;
         if(nodeParent->left_son)
             lHeight = nodeParent->left_son->height;
-        nodeParent->height = (1 + std::max(rHeight, lHeight));
+        if(nodeParent->right_son || nodeParent->left_son){
+            nodeParent->height = (1 + std::max(rHeight, lHeight));
+        }
+        else nodeParent->height = 0;
         this->Rotate(nodeParent);
     }
     return StatusType::SUCCESS;
 }
-
-
 
 template<class Key, class Value>
 AvlNode<Key, Value> *AvlTree<Key, Value>::Find(Key key){
@@ -396,12 +400,13 @@ AvlNode<Key, Value> *findNode(AvlNode<Key, Value> * rootNode,Key key){
     if(!rootNode){
         return nullptr;
     }
-    if(rootNode->key == key){
+    else if (rootNode->key == key){
         return rootNode;
-    } else if (rootNode->key > key)
-        findNode(rootNode->left_son,key);
+    }
+    else if (rootNode->key > key)
+        return findNode(rootNode->left_son,key);
     else{
-        findNode(rootNode->right_son,key);
+        return findNode(rootNode->right_son,key);
     }
 }
 
@@ -608,7 +613,7 @@ void limitedInorderHelper(AvlNode<Key, Value> *root, Pair<Key, Value> arr[], Key
     {
         return;
     }
-    if((root->key < minKey || root->key > maxKey) && (!root->left_son || findMinNode(root)->key > maxKey || !root->right_son || findMaxNode(root)->key < minKey)){
+    if((root->key < minKey || root->key > maxKey) && ((root->left_son && findMinNode(root)->key > maxKey) || (root->right_son && findMaxNode(root)->key < minKey))){
         return;
     }
     limitedInorderHelper(root->left_son, arr, minKey, maxKey, index);
@@ -633,7 +638,7 @@ int rangeCount(AvlNode<Key,Value> *root, Key minKey, Key maxKey){
     else if(root->key > maxKey){
         return rangeCountHelper(root->left_son,minKey,maxKey,i);
     }
-    else if(root->key < minKey){
+    else{
         return rangeCountHelper(root->right_son,minKey,maxKey,i);
     }
 }
@@ -644,7 +649,7 @@ int rangeCountHelper(AvlNode<Key,Value> *root, Key minKey, Key maxKey,int &i){
     {
         return i;
     }
-    if((root->key < minKey || root->key > maxKey) && (!root->left_son || findMinNode(root)->key > maxKey || !root->right_son || findMaxNode(root)->key < minKey)){
+    if((root->key < minKey || root->key > maxKey) && ((root->left_son && findMinNode(root)->key > maxKey) || (root->right_son && findMaxNode(root)->key < minKey))){
         return i;
     }
     rangeCountHelper(root->left_son, minKey, maxKey, i);
@@ -654,10 +659,6 @@ int rangeCountHelper(AvlNode<Key,Value> *root, Key minKey, Key maxKey,int &i){
     }
     return i;
 }
-
-
-
-
 
 
 template<class Key, class Value>
