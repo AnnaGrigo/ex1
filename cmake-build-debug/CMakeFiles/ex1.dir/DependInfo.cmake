@@ -10,7 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/user/CLionProjects/RatuvMivne1/ex1/Player.cpp" "CMakeFiles/ex1.dir/Player.cpp.obj" "gcc" "CMakeFiles/ex1.dir/Player.cpp.obj.d"
   "C:/Users/user/CLionProjects/RatuvMivne1/ex1/Team.cpp" "CMakeFiles/ex1.dir/Team.cpp.obj" "gcc" "CMakeFiles/ex1.dir/Team.cpp.obj.d"
-  "C:/Users/user/CLionProjects/RatuvMivne1/ex1/main23a1.cpp" "CMakeFiles/ex1.dir/main23a1.cpp.obj" "gcc" "CMakeFiles/ex1.dir/main23a1.cpp.obj.d"
+  "C:/Users/user/CLionProjects/RatuvMivne1/ex1/main.cpp" "CMakeFiles/ex1.dir/main.cpp.obj" "gcc" "CMakeFiles/ex1.dir/main.cpp.obj.d"
   "C:/Users/user/CLionProjects/RatuvMivne1/ex1/worldcup23a1.cpp" "CMakeFiles/ex1.dir/worldcup23a1.cpp.obj" "gcc" "CMakeFiles/ex1.dir/worldcup23a1.cpp.obj.d"
   )
 

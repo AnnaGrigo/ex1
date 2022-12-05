@@ -129,4 +129,5 @@ CMakeFiles/ex1.dir/main.cpp.obj: \
  C:\Users\user\CLionProjects\RatuvMivne1\ex1\AvlTree.h \
  C:\Users\user\CLionProjects\RatuvMivne1\ex1\Pair.h \
  C:\Users\user\CLionProjects\RatuvMivne1\ex1\wet1util.h \
+ C:\Users\user\CLionProjects\RatuvMivne1\ex1\Score.h \
  C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/x86_64-w64-mingw32/include/assert.h
