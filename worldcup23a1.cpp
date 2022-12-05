@@ -2,6 +2,7 @@
 #include "Team.h"
 #include "Player.h"
 #include "AvlTree.h"
+#include <assert.h>
 
 world_cup_t::world_cup_t()
 {
@@ -42,7 +43,7 @@ StatusType world_cup_t::remove_team(int teamId)
         return StatusType::INVALID_INPUT;
     }
     //check if team exists
-    if ((teams_by_id.Find(teamId))->key != teamId) {
+    if (teams_by_id.Find(teamId) == nullptr) {
         return StatusType::FAILURE;
     }
     Team *my_team = teams_by_id.Find(teamId)->value;
@@ -146,6 +147,10 @@ StatusType world_cup_t::add_player(int playerId, int teamId, int gamesPlayed,
     if(new_player->prev_player_in_score != nullptr) {
         new_player->prev_player_in_score->next_player_in_score = new_player;
     }
+    assert(is_tree_valid(all_players_by_id.root) == true);
+    assert(is_tree_valid(all_players_by_score.root) == true);
+    assert(is_tree_size_valid(all_players_by_id.root) == all_players_by_id.size);
+    assert(is_tree_size_valid(all_players_by_score.root) == all_players_by_score.size);
     return StatusType::SUCCESS;
 }
 
@@ -174,23 +179,39 @@ StatusType world_cup_t::remove_player(int playerId)
     if(status != StatusType::SUCCESS) {
         return status;
     }
+    assert(is_tree_valid(all_players_by_id.root) == true);
+    assert(is_tree_valid(all_players_by_score.root) == true);
+    assert(is_tree_size_valid(all_players_by_id.root) == all_players_by_id.size);
+    assert(is_tree_size_valid(all_players_by_score.root) == all_players_by_score.size);
     //remove player from all players by score tree
     Score player_score_all = Score(player_to_remove->goals, player_to_remove->cards, playerId);
     status = all_players_by_score.Delete(player_score_all);
     if(status != StatusType::SUCCESS) {
         return status;
     }
+    assert(is_tree_valid(all_players_by_id.root) == true);
+    assert(is_tree_valid(all_players_by_score.root) == true);
+    assert(is_tree_size_valid(all_players_by_id.root) == all_players_by_id.size);
+    assert(is_tree_size_valid(all_players_by_score.root) == all_players_by_score.size);
     //remove player from team players by id tree
     status = my_team->team_players_by_id.Delete(playerId);
     if(status != StatusType::SUCCESS) {
         return status;
     }
+    assert(is_tree_valid(all_players_by_id.root) == true);
+    assert(is_tree_valid(all_players_by_score.root) == true);
+    assert(is_tree_size_valid(all_players_by_id.root) == all_players_by_id.size);
+    assert(is_tree_size_valid(all_players_by_score.root) == all_players_by_score.size);
     //remove player from team players by score tree
     Score player_score_team = Score(player_to_remove->goals, player_to_remove->cards, playerId);
     status = my_team->team_players_by_score.Delete(player_score_team);
     if(status != StatusType::SUCCESS) {
         return status;
     }
+    assert(is_tree_valid(all_players_by_id.root) == true);
+    assert(is_tree_valid(all_players_by_score.root) == true);
+    assert(is_tree_size_valid(all_players_by_id.root) == all_players_by_id.size);
+    assert(is_tree_size_valid(all_players_by_score.root) == all_players_by_score.size);
     //check if to remove team from legal teams by id tree
     if(!Is_Team_Legal(my_team) && was_team_legal)
     {
@@ -199,6 +220,10 @@ StatusType world_cup_t::remove_player(int playerId)
             return status;
         }
     }
+    assert(is_tree_valid(all_players_by_id.root) == true);
+    assert(is_tree_valid(all_players_by_score.root) == true);
+    assert(is_tree_size_valid(all_players_by_id.root) == all_players_by_id.size);
+    assert(is_tree_size_valid(all_players_by_score.root) == all_players_by_score.size);
     //check if to update top player
     if(player_to_remove == top_player) {
         if(all_players_by_score.size == 0) {
@@ -232,6 +257,10 @@ StatusType world_cup_t::remove_player(int playerId)
         prev_player_in_score->next_player_in_score = next_player_in_score;
     }
     delete player_to_remove;
+    assert(is_tree_valid(all_players_by_id.root) == true);
+    assert(is_tree_valid(all_players_by_score.root) == true);
+    assert(is_tree_size_valid(all_players_by_id.root) == all_players_by_id.size);
+    assert(is_tree_size_valid(all_players_by_score.root) == all_players_by_score.size);
     return StatusType::SUCCESS;
 }
 
@@ -241,10 +270,10 @@ StatusType world_cup_t::update_player_stats(int playerId, int gamesPlayed,
     if(playerId<=0 || gamesPlayed<0 || scoredGoals<0 || cardsReceived<0) {
         return StatusType::INVALID_INPUT;
     }
-    Player* my_player = (all_players_by_id.Find(playerId)->value);
-    if (my_player->player_id != playerId) {
+    if (all_players_by_id.Find(playerId) == nullptr) {
         return StatusType::FAILURE;
     }
+    Player* my_player = (all_players_by_id.Find(playerId)->value);
     bool is_goalkeeper = my_player->is_goalkeeper;
     int team_id = my_player->team_id;
     int updated_goals = scoredGoals + my_player->goals;
@@ -505,6 +534,9 @@ output_t<int> world_cup_t::knockout_winner(int minTeamId, int maxTeamId)
 {
     if( minTeamId < 0 || maxTeamId < 0 || maxTeamId < minTeamId){
         return StatusType::INVALID_INPUT;
+    }
+    if(legal_teams_by_id.size == 0){
+        return StatusType::FAILURE;
     }
     Pair<int,Team*>* legalTeams;
     try {

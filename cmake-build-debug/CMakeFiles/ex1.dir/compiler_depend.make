@@ -132,8 +132,8 @@ CMakeFiles/ex1.dir/Player.cpp.obj: C:/Users/user/CLionProjects/RatuvMivne1/ex1/P
   C:/Program\ Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/istream.tcc \
   C:/Users/user/CLionProjects/RatuvMivne1/ex1/Pair.h \
   C:/Users/user/CLionProjects/RatuvMivne1/ex1/wet1util.h \
-  C:/Users/user/CLionProjects/RatuvMivne1/ex1/Team.h \
-  C:/Users/user/CLionProjects/RatuvMivne1/ex1/Score.h
+  C:/Users/user/CLionProjects/RatuvMivne1/ex1/Score.h \
+  C:/Users/user/CLionProjects/RatuvMivne1/ex1/Team.h
 
 CMakeFiles/ex1.dir/Team.cpp.obj: C:/Users/user/CLionProjects/RatuvMivne1/ex1/Team.cpp \
   C:/Users/user/CLionProjects/RatuvMivne1/ex1/Team.h \
@@ -400,8 +400,8 @@ CMakeFiles/ex1.dir/main23a1.cpp.obj: C:/Users/user/CLionProjects/RatuvMivne1/ex1
   C:/Program\ Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/istream \
   C:/Program\ Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/istream.tcc \
   C:/Users/user/CLionProjects/RatuvMivne1/ex1/Pair.h \
-  C:/Users/user/CLionProjects/RatuvMivne1/ex1/Team.h \
-  C:/Users/user/CLionProjects/RatuvMivne1/ex1/Score.h
+  C:/Users/user/CLionProjects/RatuvMivne1/ex1/Score.h \
+  C:/Users/user/CLionProjects/RatuvMivne1/ex1/Team.h
 
 CMakeFiles/ex1.dir/worldcup23a1.cpp.obj: C:/Users/user/CLionProjects/RatuvMivne1/ex1/worldcup23a1.cpp \
   C:/Users/user/CLionProjects/RatuvMivne1/ex1/worldcup23a1.h \
@@ -535,8 +535,9 @@ CMakeFiles/ex1.dir/worldcup23a1.cpp.obj: C:/Users/user/CLionProjects/RatuvMivne1
   C:/Program\ Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/istream \
   C:/Program\ Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/istream.tcc \
   C:/Users/user/CLionProjects/RatuvMivne1/ex1/Pair.h \
+  C:/Users/user/CLionProjects/RatuvMivne1/ex1/Score.h \
   C:/Users/user/CLionProjects/RatuvMivne1/ex1/Team.h \
-  C:/Users/user/CLionProjects/RatuvMivne1/ex1/Score.h
+  C:/Program\ Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/x86_64-w64-mingw32/include/assert.h
 
 
 C:/Program\ Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/debug/debug.h:
@@ -812,3 +813,5 @@ C:/Users/user/CLionProjects/RatuvMivne1/ex1/main23a1.cpp:
 C:/Users/user/CLionProjects/RatuvMivne1/ex1/worldcup23a1.h:
 
 C:/Users/user/CLionProjects/RatuvMivne1/ex1/worldcup23a1.cpp:
+
+C:/Program\ Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/x86_64-w64-mingw32/include/assert.h:

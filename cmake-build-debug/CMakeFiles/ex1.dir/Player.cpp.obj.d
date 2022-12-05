@@ -130,5 +130,5 @@ CMakeFiles/ex1.dir/Player.cpp.obj: \
  C:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/istream.tcc \
  C:\Users\user\CLionProjects\RatuvMivne1\ex1\Pair.h \
  C:\Users\user\CLionProjects\RatuvMivne1\ex1\wet1util.h \
- C:\Users\user\CLionProjects\RatuvMivne1\ex1\Team.h \
- C:\Users\user\CLionProjects\RatuvMivne1\ex1\Score.h
+ C:\Users\user\CLionProjects\RatuvMivne1\ex1\Score.h \
+ C:\Users\user\CLionProjects\RatuvMivne1\ex1\Team.h

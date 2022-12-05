@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Pair.h"
 #include "wet1util.h"
+#include "Score.h"
 
 template<class Key, class Value>
 class AvlNode {
@@ -664,6 +665,12 @@ bool is_tree_valid(AvlNode<Key, Value> *root) {
     if (!root) {
         return true;
     }
+    if(root->height != 1 + std::max(getHeight(root->left_son),getHeight(root->right_son))){
+        return false;
+    }
+    if(!root->left_son && !root->right_son && root->height != 0){
+        return false;
+    }
     if (root->left_son && root->left_son->key >= root->key) {
         return false;
     }
@@ -689,6 +696,24 @@ bool is_tree_valid(AvlNode<Key, Value> *root) {
         }
     }
     return is_tree_valid(root->left_son) && is_tree_valid(root->right_son);
+}
+
+template<class Key, class Value>
+int getHeight(AvlNode<Key, Value> *root) {
+    if (!root) {
+        return -1;
+    }
+    return root->height;
+}
+
+template <class Key, class Value>
+int is_tree_size_valid(AvlNode<Key, Value> *root) {
+    if (!root) {
+        return 0;
+    }
+    else {
+        return is_tree_size_valid(root->left_son) + is_tree_size_valid(root->right_son) + 1;
+    }
 }
 
 template<class Key, class Value>
