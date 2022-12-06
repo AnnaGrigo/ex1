@@ -616,13 +616,22 @@ void limitedInorderHelper(AvlNode<Key, Value> *root, Pair<Key, Value> arr[], Key
     if((root->key < minKey || root->key > maxKey) && (!findNodeInRange(root->left_son,minKey,maxKey)) && (!findNodeInRange(root->right_son,minKey,maxKey))){
         return;
     }
-    limitedInorderHelper(root->left_son, arr, minKey, maxKey, index);
+    if (findNodeInRange(root->left_son,minKey,maxKey))
+    {
+        limitedInorderHelper(root->left_son, arr, minKey, maxKey, index);
+    }
+
     if(root->key <= maxKey && minKey <=root->key){
         arr[index].key = root->key;
         arr[index].value = root->value;
         index++;
+
+    }
+    if (findNodeInRange(root->right_son,minKey,maxKey))
+    {
         limitedInorderHelper(root->right_son, arr, minKey, maxKey, index);
     }
+
 }
 
 template <class Key, class Value>
@@ -673,7 +682,9 @@ int rangeCountHelper(AvlNode<Key,Value> *root, Key minKey, Key maxKey,int &i){
     }
     rangeCountHelper(root->left_son, minKey, maxKey, i);
     rangeCountHelper(root->right_son ,minKey, maxKey,i);
+    int key;
     if(root->key <= maxKey && minKey <=root->key){
+        key = root->key;
         ++i;
     }
     return i;

@@ -11,32 +11,21 @@ int main() {
 
     AvlTree<int,int> avl1;
     AvlTree<int,int> avl2;
-    avl1.Insert(6,6);
-    avl1.Insert(2,2);
-    avl1.Insert(1,1);
-    avl1.Insert(3,3);
-    avl1.Insert(7,7);
-    avl1.Insert(4,4);
-    assert(is_tree_size_valid(avl1.root) == avl1.size);
-
-    avl1.Insert(9,9);
-    avl1.Insert(5,5);
-    avl1.Insert(20,20);
     avl1.Insert(10,10);
-    avl1.Insert(8,8);
-    avl1.Insert(11,11);
-    avl1.Insert(12,12);
+    avl1.Insert(6,6);
     avl1.Insert(13,13);
-    avl1.Insert(14,14);
+    avl1.Insert(11,11);
     avl1.Insert(15,15);
-    avl1.Insert(16,16);
-    avl1.Insert(17,17);
-    avl1.Insert(18,18);
-    avl1.Insert(19,19);
-    avl1.Delete(1);
-    int range = rangeCount(avl1.root, 1, 20);
+    avl1.Insert(4,4);
+
+    avl1.Insert(7,7);
+    avl1.Insert(12,12);
+  //  assert(is_tree_size_valid(avl1.root) == avl1.size);
+
+    avl1.Insert(14,14);
+    int range = rangeCount(avl1.root, 8, 16);
     auto *arr = new Pair<int,int>[range];
-    limitedInorder(avl1.root, arr, 1, 20);
+    limitedInorder(avl1.root, arr, 8, 16);
     for (int i = 0; i < range; ++i) {
         cout << "range: " << i <<"key:"<<arr[i].key << endl;
 

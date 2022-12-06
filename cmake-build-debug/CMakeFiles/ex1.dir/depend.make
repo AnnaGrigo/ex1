@@ -16,12 +16,15 @@ CMakeFiles/ex1.dir/Team.cpp.obj: \
  ../Team.cpp \
  ../Team.h \
  ../wet1util.h
-CMakeFiles/ex1.dir/main.cpp.obj: \
+CMakeFiles/ex1.dir/main23a1.cpp.obj: \
  ../AvlTree.h \
  ../Pair.h \
+ ../Player.h \
  ../Score.h \
- ../main.cpp \
- ../wet1util.h
+ ../Team.h \
+ ../main23a1.cpp \
+ ../wet1util.h \
+ ../worldcup23a1.h
 CMakeFiles/ex1.dir/worldcup23a1.cpp.obj: \
  ../AvlTree.h \
  ../Pair.h \
