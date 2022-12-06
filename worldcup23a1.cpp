@@ -519,7 +519,6 @@ output_t<int> knockout_winner_helper(Pair<int,int>* teamsPlaying, Pair<int,int>*
         delete[] teamsThatWon;
         return winner;
     }
-    int team1value, team2value,team1key,team2key;
     for (int i = 0; i < numTeamsPlaying - numTeamsPlaying%2 ; i+=2) {
         if(teamsPlaying[i].value > teamsPlaying[i+1].value){
             teamsThatWon[i/2].key = teamsPlaying[i].key;
@@ -535,10 +534,6 @@ output_t<int> knockout_winner_helper(Pair<int,int>* teamsPlaying, Pair<int,int>*
             teamsThatWon[i/2].key = teamsPlaying[i+1].key;
         }
         teamsThatWon[i/2].value = teamsPlaying[i].value + teamsPlaying[i+1].value + 3;
-        team1key = teamsPlaying[i].key;
-        team2key= teamsPlaying[i+1].key;
-        team1value = teamsPlaying[i].value;
-        team2value = teamsPlaying[i+1].value;
     }
 
     if(numTeamsPlaying%2){
@@ -561,7 +556,13 @@ output_t<int> world_cup_t::knockout_winner(int minTeamId, int maxTeamId)
     if( minTeamId < 0 || maxTeamId < 0 || maxTeamId < minTeamId){
         return StatusType::INVALID_INPUT;
     }
+    if(legal_teams_by_id.size == 0){
+        return StatusType::FAILURE;
+    }
     int numOfLegalTeams = rangeCount(legal_teams_by_id.root,minTeamId,maxTeamId);
+    if(numOfLegalTeams == 0){
+        return StatusType::FAILURE;
+    }
     Pair<int,Team*>* legalTeams;
     try {
         legalTeams = new Pair<int,Team*>[numOfLegalTeams];
