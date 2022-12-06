@@ -5,7 +5,7 @@
 #include <assert.h>
 
 
-
+using namespace std;
 
 int main() {
 
@@ -34,10 +34,13 @@ int main() {
     avl1.Insert(18,18);
     avl1.Insert(19,19);
     avl1.Delete(1);
-    assert((is_tree_valid(avl1.root)) == true);
-    assert(is_tree_size_valid(avl1.root) == avl1.size);
-    int x = 5;
+    int range = rangeCount(avl1.root, 1, 20);
+    auto *arr = new Pair<int,int>[range];
+    limitedInorder(avl1.root, arr, 1, 20);
+    for (int i = 0; i < range; ++i) {
+        cout << "range: " << i <<"key:"<<arr[i].key << endl;
 
+    }
 
     /*int minkey = 3, maxkey = 8;
     Pair<int,int>* arr = new Pair<int,int>[maxkey-minkey +1];

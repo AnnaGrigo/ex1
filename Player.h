@@ -24,6 +24,26 @@ public:
     int Get_Closest_Player(Player* player1, Player* player2) const;
 };
 
-
-
+/*
+template <class Key, class Value>
+void limitedInorderHelper(AvlNode<Key, Value> *root, Pair<Key, Value> arr[], Key minKey, Key maxKey ,int& index){
+    if (!root)
+    {
+        return;
+    }
+    if((root->key < minKey || root->key > maxKey) && (!findNodeInRange(root->left_son,minKey,maxKey)) || (!findNodeInRange(root->right_son,minKey,maxKey))){
+        return;
+    }
+    if(findNodeInRange(root->left_son,minKey,maxKey)){
+        limitedInorderHelper(root->left_son,arr,minKey,maxKey,index);
+    }
+    if(root->key <= maxKey && minKey <=root->key){
+        arr[index].key = root->key;
+        arr[index].value = root->value;
+        index++;
+        if (findNodeInRange(root->right_son,minKey,maxKey)){
+            limitedInorderHelper(root->right_son,arr,minKey,maxKey,index);
+        }
+    }
+}*/
 #endif //RATUV1_PLAYER_H

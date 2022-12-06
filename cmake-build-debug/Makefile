@@ -176,29 +176,29 @@ Team.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/Team.cpp.s
 .PHONY : Team.cpp.s
 
-WorldCupTests/WorldCupTests.obj: WorldCupTests/WorldCupTests.cpp.obj
-.PHONY : WorldCupTests/WorldCupTests.obj
+main.obj: main.cpp.obj
+.PHONY : main.obj
 
 # target to build an object file
-WorldCupTests/WorldCupTests.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/WorldCupTests/WorldCupTests.cpp.obj
-.PHONY : WorldCupTests/WorldCupTests.cpp.obj
+main.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/main.cpp.obj
+.PHONY : main.cpp.obj
 
-WorldCupTests/WorldCupTests.i: WorldCupTests/WorldCupTests.cpp.i
-.PHONY : WorldCupTests/WorldCupTests.i
+main.i: main.cpp.i
+.PHONY : main.i
 
 # target to preprocess a source file
-WorldCupTests/WorldCupTests.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/WorldCupTests/WorldCupTests.cpp.i
-.PHONY : WorldCupTests/WorldCupTests.cpp.i
+main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/main.cpp.i
+.PHONY : main.cpp.i
 
-WorldCupTests/WorldCupTests.s: WorldCupTests/WorldCupTests.cpp.s
-.PHONY : WorldCupTests/WorldCupTests.s
+main.s: main.cpp.s
+.PHONY : main.s
 
 # target to generate assembly for a file
-WorldCupTests/WorldCupTests.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/WorldCupTests/WorldCupTests.cpp.s
-.PHONY : WorldCupTests/WorldCupTests.cpp.s
+main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ex1.dir\build.make CMakeFiles/ex1.dir/main.cpp.s
+.PHONY : main.cpp.s
 
 worldcup23a1.obj: worldcup23a1.cpp.obj
 .PHONY : worldcup23a1.obj
@@ -239,9 +239,9 @@ help:
 	@echo ... Team.obj
 	@echo ... Team.i
 	@echo ... Team.s
-	@echo ... WorldCupTests/WorldCupTests.obj
-	@echo ... WorldCupTests/WorldCupTests.i
-	@echo ... WorldCupTests/WorldCupTests.s
+	@echo ... main.obj
+	@echo ... main.i
+	@echo ... main.s
 	@echo ... worldcup23a1.obj
 	@echo ... worldcup23a1.i
 	@echo ... worldcup23a1.s
