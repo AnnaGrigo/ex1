@@ -4,7 +4,7 @@
 Team::Team(int team_id, int points) {
     this->team_id = team_id;
     this->points = points;
-    this->value = points;
+    this->value = 0;
     this->num_of_goalkeepers = 0;
     this->all_team_games_played = 0;
     this->top_team_player_score = Score();

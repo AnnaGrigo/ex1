@@ -535,7 +535,6 @@ output_t<int> knockout_winner_helper(Pair<int,int>* teamsPlaying, Pair<int,int>*
         }
         teamsThatWon[i/2].value = teamsPlaying[i].value + teamsPlaying[i+1].value + 3;
     }
-
     if(numTeamsPlaying%2){
         teamsThatWon[numTeamsPlaying/2].key = teamsPlaying[numTeamsPlaying-1].key;
         teamsThatWon[numTeamsPlaying/2].value = teamsPlaying[numTeamsPlaying-1].value;

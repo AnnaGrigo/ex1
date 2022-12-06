@@ -649,13 +649,13 @@ int rangeCountHelper(AvlNode<Key,Value> *root, Key minKey, Key maxKey,int &i){
     {
         return i;
     }
-    if((root->key < minKey || root->key > maxKey) && ((root->left_son && findMinNode(root)->key > maxKey) || (root->right_son && findMaxNode(root)->key < minKey))){
+    if((root->key < minKey || root->key > maxKey) && (((root->left_son && findMinNode(root)->key > maxKey) || (root->right_son && findMaxNode(root)->key < minKey)))){
         return i;
     }
     rangeCountHelper(root->left_son, minKey, maxKey, i);
+    rangeCountHelper(root->right_son ,minKey, maxKey,i);
     if(root->key <= maxKey && minKey <=root->key){
         ++i;
-        rangeCountHelper(root->right_son ,minKey, maxKey,i);
     }
     return i;
 }
