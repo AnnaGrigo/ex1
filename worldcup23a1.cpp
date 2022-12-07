@@ -343,16 +343,18 @@ void change_players_games(AvlNode<int, Player*> *root,int team_games)
     change_players_games(root->right_son,team_games);
 }
 
-void update_players_team(AvlNode<int, Player*> * root, Team* team)
+void update_players_team(AvlNode<int, Player*> * root, Team* team,int teamId)
 {
     if (!root)
     {
         return;
     }
-    update_players_team(root->left_son,team);
+    update_players_team(root->left_son,team,teamId);
     root->value->my_team = team;
-    update_players_team(root->right_son,team);
+    root->value->team_id = teamId;
+    update_players_team(root->right_son,team,teamId);
 }
+
 
 StatusType world_cup_t::unite_teams(int teamId1, int teamId2, int newTeamId)
 {
@@ -375,7 +377,8 @@ StatusType world_cup_t::unite_teams(int teamId1, int teamId2, int newTeamId)
     Team* team2 = teams_by_id.Find(teamId2)->value;
     change_players_games(team1->team_players_by_id.root,team1->all_team_games_played);
     change_players_games(team2->team_players_by_id.root,team2->all_team_games_played);
-    update_players_team(team2->team_players_by_id.root,team1);
+    update_players_team(team1->team_players_by_id.root,team1,newTeamId);
+    update_players_team(team2->team_players_by_id.root,team1,newTeamId);
     if(team1->team_players_by_id.Merge(team2->team_players_by_id) == StatusType::ALLOCATION_ERROR){
         team1->all_team_games_played = 0;
         team2->all_team_games_played = 0;
