@@ -95,6 +95,7 @@ StatusType world_cup_t::add_player(int playerId, int teamId, int gamesPlayed,
     Team* my_team = (teams_by_id.Find(teamId))->value;
     bool was_team_legal = Is_Team_Legal(my_team);
     new_player->my_team = my_team;
+    new_player->games_team_played = my_team->all_team_games_played;
     //update team goalkeepers
     if(new_player->is_goalkeeper) {
         my_team->num_of_goalkeepers++;
@@ -263,17 +264,20 @@ StatusType world_cup_t::update_player_stats(int playerId, int gamesPlayed,
     if (my_player->player_id != playerId) {
         return StatusType::FAILURE;
     }
+    int team_games_to_update = my_player->games_team_played;
     bool is_goalkeeper = my_player->is_goalkeeper;
     int team_id = my_player->team_id;
     int updated_goals = scoredGoals + my_player->goals;
     int updated_cards = cardsReceived + my_player->cards;
-    int updated_games = gamesPlayed + my_player->own_games_played;
+    int updated_games = gamesPlayed + my_player->own_games_played +1;
     StatusType status = remove_player(playerId);
     if(status != StatusType::SUCCESS) {
-        return status;
+         return status;
     }
-    return add_player(playerId, team_id, updated_games
-            , updated_goals , updated_cards, is_goalkeeper);
+    add_player(playerId, team_id, updated_games, updated_goals , updated_cards, is_goalkeeper);
+    (all_players_by_id.Find(playerId)->value)->games_team_played = team_games_to_update;
+    (all_players_by_id.Find(playerId)->value)->own_games_played--;
+    return StatusType::SUCCESS;
 }
 
 StatusType world_cup_t::play_match(int teamId1, int teamId2)
@@ -339,7 +343,7 @@ void change_players_games(AvlNode<int, Player*> *root,int team_games)
         return;
     }
     change_players_games(root->left_son,team_games);
-    root->value->games_team_played = team_games - root->value->games_team_played;
+    root->value->games_team_played = team_games - root->value->my_team->all_team_games_played + root->value->games_team_played;
     change_players_games(root->right_son,team_games);
 }
 
@@ -375,8 +379,8 @@ StatusType world_cup_t::unite_teams(int teamId1, int teamId2, int newTeamId)
     }
     Team* team1 = teams_by_id.Find(teamId1)->value;
     Team* team2 = teams_by_id.Find(teamId2)->value;
-    change_players_games(team1->team_players_by_id.root,team1->all_team_games_played);
-    change_players_games(team2->team_players_by_id.root,team2->all_team_games_played);
+   // change_players_games(team1->team_players_by_id.root,team1->all_team_games_played);
+    change_players_games(team2->team_players_by_id.root,team1->all_team_games_played);
     update_players_team(team1->team_players_by_id.root,team1,newTeamId);
     update_players_team(team2->team_players_by_id.root,team1,newTeamId);
     if(team1->team_players_by_id.Merge(team2->team_players_by_id) == StatusType::ALLOCATION_ERROR){
@@ -392,7 +396,7 @@ StatusType world_cup_t::unite_teams(int teamId1, int teamId2, int newTeamId)
     team1->num_of_goalkeepers += team2->num_of_goalkeepers;
     team1->points += team2->points;
     team1->value += team2->value;
-    team1->all_team_games_played = 0;
+   // team1->all_team_games_played = 0;
     if(team1->top_team_player_score < team2->top_team_player_score) {
         team1->top_team_player = team2->top_team_player;
         team1->top_team_player_score = team2->top_team_player_score;

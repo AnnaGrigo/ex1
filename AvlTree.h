@@ -712,9 +712,7 @@ int rangeCountHelper(AvlNode<Key, Value> *root, Key minKey, Key maxKey, int &i) 
     }
     rangeCountHelper(root->left_son, minKey, maxKey, i);
     rangeCountHelper(root->right_son, minKey, maxKey, i);
-    int key;
     if (root->key <= maxKey && minKey <= root->key) {
-        key = root->key;
         ++i;
     }
     return i;
